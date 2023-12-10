@@ -33,9 +33,8 @@ export default function Login() {
         password,
         redirect: false,
       });
-
-      console.log(res)
-      router.replace("/dashboard")
+      // console.log(res)
+      router.replace("/")
     } catch (error) {
       console.log("something went wrong", error);
     }

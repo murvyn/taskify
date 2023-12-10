@@ -62,9 +62,9 @@ const SignUp = () => {
       if(res.ok){
         reset()
       }
-      router.push("/dashboard")
+      router.push("/")
     } catch (error) {
-      console.log(error);
+      console.log("an error ocurred", error)
     }
   };
   return (
