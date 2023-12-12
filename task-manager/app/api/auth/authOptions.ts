@@ -4,7 +4,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { nullable } from "zod";
+import { NextResponse } from "next/server";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -13,17 +13,22 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
       async authorize(credentials: any, req) {
         try {
-          if (!credentials?.email || !credentials?.password) return nullable;
-          await connectDB;
+          if (!credentials?.email || !credentials?.password) return null;
+          await connectDB();
           const user = await User.findOne({ email: credentials.email! });
           if (!user) return null;
           const passwordMatch = await bcrypt.compare(
             credentials.password,
             user.password
           );
-          return passwordMatch ? user : null;
+          if (!passwordMatch){
+            console.log('password does not match')
+            return null
+          }
+          return user 
         } catch (error) {
-          console.log("an error ocurred", error);
+          // console.log("an error ocurred", error);
+          return NextResponse.json({ error: "an error ocurred" }, { status: 500 });
         }
       },
     }),
@@ -33,6 +38,6 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/",
+    signIn: "/login",
   },
 };

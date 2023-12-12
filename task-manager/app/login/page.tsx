@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ZodType, z } from "zod";
 
@@ -17,6 +18,9 @@ export default function Login() {
     email: z.string().email(),
     password: z.string().nonempty("Password is required"),
   });
+
+  const [err, setError] = useState('')
+  const [toastError, setToastError] = useState('')
 
   const router = useRouter()
 
@@ -33,7 +37,16 @@ export default function Login() {
         password,
         redirect: false,
       });
-      // console.log(res)
+      if(res?.error === "CredentialsSignin" ){
+        setError('Invalid email or password')
+        return
+      }else if(res?.error){
+        setToastError('Something went wrong, try again')
+        setTimeout(() => {
+          setError('')
+        }, 3000)
+        return
+      }
       router.replace("/")
     } catch (error) {
       console.log("something went wrong", error);
@@ -78,6 +91,7 @@ export default function Login() {
                 </span>
               )}
             </div>
+            {err && <span className="alert alert-error" >{err}</span>}
             <button className="btn btn-primary w-full" type="submit">
               Login
             </button>
@@ -95,6 +109,11 @@ export default function Login() {
           </div>
         </div>
       </div>
+      {toastError && <div className="toast">
+        <div className="alert alert-error">
+          <span>{toastError}</span>
+        </div>
+      </div>}
     </>
   );
 };

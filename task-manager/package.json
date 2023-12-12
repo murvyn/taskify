@@ -9,15 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^2.0.7",
     "@hookform/resolvers": "^3.3.2",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
-    "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
-    "nodemon": "^3.0.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
