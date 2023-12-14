@@ -12,8 +12,7 @@ const SideBar = () => {
     await signOut()
   }
   return (
-    <div className='container'>
-      <div className="card bg-primary w-[15rem] h-[90vh] flex items-center justify-between">
+      <div className="card bg-base-200 w-[15rem] h-[96vh] flex items-center justify-between py-5">
         <div className='flex justify-around gap-4 items-center my-5' >
           <Image src={noUser} width={60} height={60} alt='image' className='rounded-full object-cover'  />
           <span className='text-xl font-bold'>Marvin <br/> Asamoah</span>
@@ -26,7 +25,6 @@ const SideBar = () => {
 
         </div>
       </div>
-    </div>
   )
 }
 

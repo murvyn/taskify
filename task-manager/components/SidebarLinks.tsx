@@ -6,21 +6,21 @@ import { FaListCheck } from "react-icons/fa6";
 const SidebarLinks = () => {
   return (
     <div className='w-full'>
-         <Link href='/' className='border-r-4 hover:border-r-info btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
+         <Link href='/dashboard/tasks' className='border-r-4 hover:border-r-primary btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
           <FaHome />
-          <p>Home</p>
+          <p>All Tasks</p>
         </Link>
-        <Link href='/' className='btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
+        <Link href='/' className='border-r-4 hover:border-r-primary btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
           <FaListCheck />
-          <p>Home</p>
+          <p>Important</p>
         </Link>
-        <Link href='/' className='btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
+        <Link href='/' className='border-r-4 hover:border-r-primary btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
           <FaCheck />
-          <p>Home</p>
+          <p>Completed</p>
         </Link>
-        <Link href='/' className='btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
+        <Link href='/' className='border-r-4 hover:border-r-primary btn btn-ghost rounded-none flex justify-center items-center space-x-5'>
           <FaClipboard />
-          <p>Home</p>
+          <p>Do it Now</p>
         </Link>
     </div>
   )

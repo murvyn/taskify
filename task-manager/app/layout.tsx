@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./auth/Providers";
+import SideBar from "@/components/SideBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,9 +17,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html data-theme="cupcake" lang="en">
+    <html data-theme="halloween" lang="en">
       <body className={inter.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+            <main className="p-5 flex gap-5">
+            <SideBar />
+              {children}
+            </main>
+        </AuthProvider>
       </body>
     </html>
   );

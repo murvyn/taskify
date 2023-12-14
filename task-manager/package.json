@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@tailwindcss/typography": "^0.5.10",
     "@types/bcryptjs": "^2.4.6",
     "bcryptjs": "^2.4.3",
     "mongoose": "^8.0.3",
