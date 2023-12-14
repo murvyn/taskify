@@ -14,10 +14,8 @@ const Home = async () => {
   if (!session) redirect("/login")
   return (
     <>
-      <div className='card w-full h-[96vh] bg-base-200 border border-stone-700 shadow-2xl p-5 overflow-hidden hover:overflow-y-scroll'>
-        <div className=''>
-          <TaskCard />
-        </div>
+      <div className='w-full' >
+        <TaskCard />
       </div>
     </>
   )
