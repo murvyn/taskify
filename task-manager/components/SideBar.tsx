@@ -1,8 +1,10 @@
 'use client'
 import { signOut } from 'next-auth/react';
-import React from 'react'
-import { FaHome, FaCheck, FaClipboard } from "react-icons/fa";
-import { FaListCheck } from "react-icons/fa6";
+import SidebarLinks from './SidebarLinks';
+import Image from 'next/image';
+import noUser from '@/public/no-user.jpg'
+import { LuLogOut } from "react-icons/lu"
+
 
 
 const SideBar = () => {
@@ -11,26 +13,19 @@ const SideBar = () => {
   }
   return (
     <div className='container'>
-      <div className="card bg-primary w-[15vw] h-[90vh]">
-        <div className='flex justify-between items-center px-20'>
-          <FaHome />
-          <p>Home</p>
+      <div className="card bg-primary w-[15rem] h-[90vh] flex items-center justify-between">
+        <div className='flex justify-around gap-4 items-center my-5' >
+          <Image src={noUser} width={60} height={60} alt='image' className='rounded-full object-cover'  />
+          <span className='text-xl font-bold'>Marvin <br/> Asamoah</span>
         </div>
-        <div className='flex justify-between items-center px-20'>
-          <FaListCheck />
-          <p>Home</p>
-        </div>
-        <div className='flex justify-between items-center px-20'>
-          <FaCheck />
-          <p>Home</p>
-        </div>
-        <div className='flex justify-between items-center px-20'>
-          <FaClipboard />
-          <p>Home</p>
-        </div>
+        <SidebarLinks />
+        <div>
+      <button className='btn btn-ghost rounded-none text-xl' onClick={handle}>
+        <LuLogOut />
+        logout</button>
 
+        </div>
       </div>
-      <button className='btn' onClick={handle}>logout</button>
     </div>
   )
 }
