@@ -23,7 +23,7 @@ const NewTaskCard = ({ toggleCard }: Props) => {
   const currentYear = currentDate.getFullYear()
   const current = `${currentYear}-${currentMonth}-${currentDay}`
 
-  const schema: ZodType<TaskData> = z.object({
+  const schema = z.object({
     title: z.string(),
     description: z.string().optional(),
     important: z.boolean().default(false),
