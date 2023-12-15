@@ -22,6 +22,13 @@
   scroll-behavior: smooth;
 }
 
+
+@media(max-width: 320px){
+  .xs\:task-link {
+    display: none;
+  }
+}
+
 /* body {
   color: rgb(var(--foreground-rgb));
 } */

@@ -1,11 +1,13 @@
 "use client";
 
+import CheckRoute from "@/components/CheckRoute";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaBullseye } from "react-icons/fa6";
 import { ZodType, z } from "zod";
 
 interface FormData {
@@ -18,6 +20,7 @@ export default function Login() {
     email: z.string().email(),
     password: z.string().nonempty("Password is required"),
   });
+  const [loading, setLoading] = useState(false)
 
   const [err, setError] = useState('')
   const [toastError, setToastError] = useState('')
@@ -32,15 +35,16 @@ export default function Login() {
 
   const submitHandler = async ({ email, password }: FormData) => {
     try {
+      setLoading(true)
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
       });
-      if(res?.error === "CredentialsSignin" ){
+      if (res?.error === "CredentialsSignin") {
         setError('Invalid email or password')
         return
-      }else if(res?.error){
+      } else if (res?.error) {
         setToastError('Something went wrong, try again')
         setTimeout(() => {
           setError('')
@@ -50,13 +54,16 @@ export default function Login() {
       router.replace("/")
     } catch (error) {
       console.log("something went wrong", error);
+    } finally {
+      setLoading(false)
     }
   };
   return (
     <>
-      <div className="justify-center items-center w-100 h-[100vh] flex ">
+      <div className="justify-center items-center w-full h-[100vh] flex  ">
         <div className="items-center flex flex-col">
-          <h1 className="mb-3 text-3xl font-bold">Login</h1>
+          <h1 className="mb-1 text-4xl font-bold">Welcome to Taskify</h1>
+          <h2 className="text-xl">Log in to Manage Tasks</h2>
           <form
             className="w-96 m-8 space-y-4"
             onSubmit={handleSubmit(submitHandler)}
@@ -92,7 +99,8 @@ export default function Login() {
               )}
             </div>
             {err && <span className="alert alert-error" >{err}</span>}
-            <button className="btn btn-primary w-full" type="submit">
+            <button disabled={loading} className="btn btn-primary w-full" type="submit">
+              {loading && <span className="loading loading-dots loading-sm"></span>}
               Login
             </button>
           </form>

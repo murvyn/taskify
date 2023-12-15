@@ -6,9 +6,9 @@ import NewTaskCard from "./NewTaskCard"
 
 const tasks = [
     { id: 1, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
-    { id: 1, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
-    { id: 1, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
-    { id: 1, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
+    { id: 2, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
+    { id: 3, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
+    { id: 4, title: "Hello World", description: 'hello there now...', date: '03/11/2023', isCompleted: false },
 ]
 
 const TaskCard = () => {
@@ -19,7 +19,7 @@ const TaskCard = () => {
     }
     return (
         <>
-            <div className='card w-full h-[96vh] bg-base-200 border border-stone-700 shadow-2xl p-5 overflow-hidden hover:overflow-y-scroll'>
+            <div className='card w-full h-[96vh] bg-base-300 border border-stone-700 shadow-2xl p-5 overflow-hidden hover:overflow-y-scroll'>
                 <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
                     {
                         tasks.map(task =>
@@ -31,7 +31,7 @@ const TaskCard = () => {
                                     </div>
                                     <div className='flex flex-col'>
                                         <span>{task.date}</span>
-                                        <div className='flex justify-between items-center'>
+                                        <div className='flex justify-between items-center '>
                                             <button onClick={() => task.isCompleted = true} className={`btn btn-sm ${task.isCompleted ? 'btn-success' : 'btn-error'}  rounded-full`}>{task.isCompleted ? 'Complete' : 'Incomplete'}</button>
                                             <div className='justify-between flex items-center text-xl space-x-1'>
                                                 <FaEdit />

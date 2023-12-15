@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
 
-interface Props{
+interface Props {
     toggleCard: () => void
 }
 
@@ -38,7 +38,7 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                                     </label>
                                 </div>
                                 <div className="justify-end mt-7 flex">
-                                    <button type='submit' className='btn btn-primary'>
+                                    <button onClick={toggleCard} type='submit' className='btn btn-primary'>
                                         <FaPlus />
                                         Create Task
                                     </button>

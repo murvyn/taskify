@@ -18,6 +18,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    photoUrl: {
+        type: String,
+        
+    }
 }, {timestamps: true})
 
 const User = models.User || mongoose.model("User", userSchema)

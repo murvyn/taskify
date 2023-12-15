@@ -35,6 +35,7 @@ const SignUp = () => {
   });
 
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
 
   const {
@@ -51,6 +52,7 @@ const SignUp = () => {
     email,
   }: FormData) => {
     try {
+      setLoading(true)
       const res = await fetch("api/register", {
         method: "POST",
         headers: {
@@ -68,7 +70,7 @@ const SignUp = () => {
           setError('')
         }, 3000)
         return
-      }else if(data.error){
+      } else if (data.error) {
         setError('Something went wrong, try again')
         setTimeout(() => {
           setError('')
@@ -78,13 +80,17 @@ const SignUp = () => {
       router.push("/")
     } catch (error) {
       console.log("an error ocurred", error)
+    } finally {
+      setLoading(false)
     }
   };
   return (
     <>
-      <div className="flex justify-center items-center h-[100vh]">
+      <div className="flex justify-center items-center w-full h-[100vh]">
         <div className="flex flex-col items-center">
-          <h1 className="font-bold text-3xl">Create An Account</h1>
+          <h1 className="mb-1 font-bold text-4xl">Join Taskify
+          </h1>
+          <h2 className="text-xl">Sign Up for Task Management</h2>
           <form
             onSubmit={handleSubmit(submitHandler)}
             className="max-w-100  m-8 space-y-4"
@@ -154,7 +160,8 @@ const SignUp = () => {
                 )}
               </div>
             </div>
-            <button type="submit" className="btn btn-primary w-full">
+            <button disabled={loading} type="submit" className="btn btn-primary w-full">
+              {loading && <span className="loading loading-dots loading-sm"></span>}
               Sign up
             </button>
           </form>
@@ -165,6 +172,7 @@ const SignUp = () => {
                 href="/login"
                 className="link link-primary hover:cursor-pointer"
               >
+
                 login
               </Link>
             </p>
