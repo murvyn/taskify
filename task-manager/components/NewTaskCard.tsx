@@ -1,4 +1,6 @@
 "use client";
+import { connectDB } from "@/lib/mongodb";
+import User from "@/models/userSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -17,6 +19,8 @@ interface Props {
 }
 
 const NewTaskCard = ({ toggleCard }: Props) => {
+  const [loading, setLoading] = useState(false)
+
   const currentDate = new Date();
   const currentDay = currentDate.getDate()
   const currentMonth = currentDate.getMonth() + 1
@@ -24,7 +28,7 @@ const NewTaskCard = ({ toggleCard }: Props) => {
   const current = `${currentYear}-${currentMonth}-${currentDay}`
 
   const schema = z.object({
-    title: z.string(),
+    title: z.string().nonempty("Title is required!"),
     description: z.string().optional(),
     important: z.boolean().default(false),
     date: z.string().refine(date => {
@@ -34,35 +38,53 @@ const NewTaskCard = ({ toggleCard }: Props) => {
       const inputYear = inputDate.getFullYear()
       const input = `${inputYear}-${inputMonth}-${inputDay}`
 
-      return input >= current}, {message: "Date should be today or later" }).transform(date => {
-        const currentDate = new Date(date)
-        const currentDay = currentDate.getDate()
+      return input >= current
+    }, { message: "Date should be today or later" }).transform(date => {
+      const currentDate = new Date(date)
+      const currentDay = currentDate.getDate()
       const currentMonth = currentDate.getMonth()
       const currentYear = currentDate.getFullYear()
-      return`${currentYear}-${currentMonth}-${currentDay}`
-      }),
-    time: z.string().refine(time => {
-      // const currentTime = new Date();
-      // const currentHour = currentTime.getHours()
-      // const currentMinutes = currentTime.getMinutes()
-      // const current = `${currentHour}:${currentMinutes}`
-      return time
-    })
+      return `${currentYear}-${currentMonth}-${currentDay}`
+    }),
+    time: z.string()
+      // .refine(time => {
+      //   // const currentTime = new Date();
+      //   // const currentHour = currentTime.getHours()
+      //   // const currentMinutes = currentTime.getMinutes()
+      //   // const current = `${currentHour}:${currentMinutes}`
+      //   return time})
+      .optional()
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TaskData>({ resolver: zodResolver(schema), defaultValues: {
-    important: false,
-    date: current,
-    description: '',
-    time: '08:00'
-  } });
+  } = useForm<TaskData>({
+    resolver: zodResolver(schema), defaultValues: {
+      important: false,
+      date: current,
+      description: '',
+    }
+  });
 
-  const submit = (data: TaskData) => {
-    console.log(data)
+  const submit = async ({ title, time, description, date, important }: TaskData) => {
+    try {
+      setLoading(true)
+      const res = await fetch("api/tasks", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ title, time, description, date, important }),
+      });
+      console.log(res)
+      toggleCard()
+    } catch (error) {
+      console.log('there was an error', error)
+    } finally {
+      setLoading(false)
+    }
   }
   return (
     <>
@@ -92,6 +114,7 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                       className="mt-3 input input-bordered w-full"
                     />
                   </label>
+                  {errors.title && <span className="text-error text-sm">{errors.title.message}</span>}
                 </div>
                 <div className="w-full form-control">
                   <label
@@ -101,12 +124,13 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                     Description
                   </label>
                   <textarea
-                  {...register("description", { required: true })}
+                    {...register("description", { required: true })}
                     name="description"
                     placeholder="eg. Watch new movie"
                     rows={4}
                     className="mt-3 textarea textarea-bordered w-full"
                   />
+                  {errors.description && <span className="text-error text-sm">{errors.description.message}</span>}
                 </div>
                 <div className="w-full form-control">
                   <label
@@ -115,14 +139,15 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                   >
                     Date
                     <input
-                    {...register("date", { required: true })}
+                      {...register("date", { required: true })}
                       name="date"
                       type="date"
                       className="mt-3 input input-bordered w-full"
                     />
                   </label>
+                  {errors.date && <span className="text-error text-sm">{errors.date.message}</span>}
                 </div>
-                 <div className="w-full form-control">
+                <div className="w-full form-control">
                   <label htmlFor="time" className="label-text flex flex-col mt-4">
                     Time
                     <input
@@ -132,10 +157,11 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                       className="mt-3 input input-bordered w-full"
                     />
                   </label>
+                  {errors.time && <span className="text-error text-sm">{errors.time.message}</span>}
                 </div>
                 <div className=" mt-5 form-control flex flex-row items-center space-x-2 ">
                   <input
-                  {...register("important", { required: true })}
+                    {...register("important", { required: true })}
                     title="important"
                     type="checkbox"
                     className="checkbox checkbox-secondary"
@@ -146,11 +172,18 @@ const NewTaskCard = ({ toggleCard }: Props) => {
                 </div>
                 <div className="justify-end mt-7 flex">
                   <button
+                    disabled={loading}
                     type="submit"
-                    className="btn btn-primary"
+                    className="btn btn-primary w-[9rem]"
                   >
-                    <FaPlus />
-                    Create Task
+                    {loading ? <span className="loading loading-spinner loading-md"></span> :
+                      <span className="flex space-x-1">
+                        <FaPlus />
+                        <p>
+                          Create Task
+                        </p>
+                      </span>
+                    }
                   </button>
                 </div>
               </form>
