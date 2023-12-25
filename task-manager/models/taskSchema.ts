@@ -4,11 +4,11 @@ import mongoose, { Schema, models } from "mongoose";
 const schema = new Schema({
     title: {
         type: String,
-        required: true
+        // required: true
     },
     description: {
         type: String,
-        required: true
+        // required: true
     },
     important: {
         type: Boolean,

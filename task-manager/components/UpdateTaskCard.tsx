@@ -1,15 +1,12 @@
 "use client";
-import { connectDB } from "@/lib/mongodb";
-import User from "@/models/userSchema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaPlus, FaTimes } from "react-icons/fa";
-import { ZodType, z } from "zod";
-import { TaskProps } from "./TaskCard";
+import { FaTimes } from "react-icons/fa";
+import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
-import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
+import { GrUpdate } from "react-icons/gr"
 
 interface TaskData {
   title: string;
@@ -21,10 +18,11 @@ interface TaskData {
 }
 interface Props {
   toggleCard: () => void;
-  setTasks: (tasks: any[]) => void;
+  id: string
+  setTasks: (tasks: any[]) => void
 }
 
-const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
+const UpdateTaskCard = ({ toggleCard, id, setTasks }: Props) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
 
@@ -35,7 +33,7 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
   const current = `${currentYear}-${currentMonth}-${currentDay}`;
 
   const schema = z.object({
-    title: z.string().nonempty("Title is required!"),
+    title: z.string().optional(),
     description: z.string().optional(),
     important: z.boolean().default(false),
     date: z
@@ -78,7 +76,6 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
     defaultValues: {
       important: false,
       date: current,
-      description: "",
     },
   });
 
@@ -91,16 +88,17 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
   }: TaskData) => {
     try {
       setLoading(true);
-      await fetch("api/tasks", {
-        method: "POST",
+      const res = await fetch("api/tasks", {
+        method: "PUT",
         headers: {
           "Content-type": "application/json",
         },
-        cache: "no-store",
-        body: JSON.stringify({ title, time, description, date, important }),
+        cache: 'no-store',
+        body: JSON.stringify({ title, time, description, date, important, id }),
       });
-      const data = await retrieval();
-      setTasks(data.tasks);
+      console.log(res)
+      const data = await retrieval()
+      setTasks(data.tasks)
       toggleCard();
     } catch (error) {
       console.log("there was an error", error);
@@ -116,7 +114,7 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
           <div className="card w-[30rem] max-sm:w-auto h-[30rem] flex justify-center items-center ">
             <div className="card-body rounded-xl shadow-2xl w-full bg-base-300  ">
               <div className="flex justify-between items-center">
-                <h1 className="card-title">Create a Task</h1>
+                <h1 className="card-title">Update a Task</h1>
                 <FaTimes className="cursor-pointer" onClick={toggleCard} />
               </div>
               <form onSubmit={handleSubmit(submit)}>
@@ -219,8 +217,8 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
                       <span className="loading loading-spinner loading-md"></span>
                     ) : (
                       <span className="flex space-x-1">
-                        <FaPlus />
-                        <p>Create Task</p>
+                        <GrUpdate />
+                        <p>Update Task</p>
                       </span>
                     )}
                   </button>
@@ -234,4 +232,4 @@ const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
   );
 };
 
-export default NewTaskCard;
+export default UpdateTaskCard;

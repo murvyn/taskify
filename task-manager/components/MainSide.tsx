@@ -4,9 +4,11 @@ import React from 'react'
 import SidebarLinks from './SidebarLinks'
 import noUser from '@/public/no-user.jpg'
 import { LuLogOut } from "react-icons/lu"
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 const MainSide = ({show}: {show: boolean}) => {
+  const {status, data: session} = useSession()
+  console.log(session?.user)
     const handle = async () => {
         await signOut()
       }
@@ -15,7 +17,7 @@ const MainSide = ({show}: {show: boolean}) => {
         <div className={`${show && 'tooltip  hover:tooltip-open tooltip-primary tooltip-right'}`} data-tip='User Profile' >
           <div className='flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4' >
             <Image src={noUser} width={60} height={60} alt='image' className='rounded-full object-cover' />
-            <span className={`${show && 'hidden'} text-xl font-bold text-center  xl:text-left max-sm:text-left cursor-pointer inline-block -sm:hidden`}>Marvin <br /> Asamoah</span>
+            <span className={`${show && 'hidden'} text-xl font-bold text-center  xl:text-left max-sm:text-left cursor-pointer inline-block -sm:hidden`}>{session?.user?.name} <br /> Asamoah</span>
           </div>
         </div>
         <SidebarLinks show={show} />

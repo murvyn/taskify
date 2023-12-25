@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
       );
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    await User.create({ firstName, lastName, email, password: hashedPassword });
-    return NextResponse.json({ message: "Success" }, { status: 201 });
+    const newUser = await User.create({ firstName, lastName, email, password: hashedPassword });
+    return NextResponse.json({ message: "Success", newUser }, { status: 201 });
   } catch (error) {
     console.log("an error ocurred", error)
     return NextResponse.json({ error: "an error ocurred" }, { status: 500 });
