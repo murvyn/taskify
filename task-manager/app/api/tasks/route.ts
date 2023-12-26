@@ -32,10 +32,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) return null;
+    if (!session?.user) throw new Error('No user');
     const email = session.user.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
