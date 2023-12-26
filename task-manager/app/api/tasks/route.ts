@@ -10,8 +10,11 @@ export async function POST(request: NextRequest) {
     const { title, description, important, date, time } = await request.json();
     const tit = title.trim();
     const des = description.trim();
+    const session = await getServerSession(authOptions);
+    if (!session?.user) throw new Error('No user');
+    const email = session?.user?.email;
     await connectDB();
-    const user = await User.findOne().select("_id");
+    const user = await User.findOne({email}).select("_id");
     const dateTimeString = `${date} ${time}`;
     const task = new Task({
       title: tit,
@@ -36,7 +39,7 @@ export async function GET(request: Request): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
     if (!session?.user) throw new Error('No user');
-    const email = session.user.email;
+    const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
     const tasks = await Task.find({ user: user._id });
