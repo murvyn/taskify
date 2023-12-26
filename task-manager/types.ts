@@ -16,6 +16,6 @@ export interface TaskProps {
     description: string;
     dateTime: Date;
     _id: string;
-    completed: boolean;
+    complete: boolean;
     important: boolean;
   }

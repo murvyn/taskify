@@ -7,6 +7,8 @@ import { set } from "mongoose";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
+import { connectDB } from "@/lib/mongodb";
+// import { completeTask } from "@/helpers";
 
 const TaskCard = () => {
   const [showCard, setShowCard] = useState(false);
@@ -15,6 +17,7 @@ const TaskCard = () => {
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const { retrieval } = useRetrieval();
   const [loading, setLoading] = useState(false);
+  const [complete, setComplete] = useState(true);
 
   useEffect(() => {
     const retrieve = async () => {
@@ -51,6 +54,28 @@ const TaskCard = () => {
       setLoading(false);
     }
   };
+
+  const completeTask = async (id: string, complete: boolean) => {
+    try {
+        setLoading(true)
+        
+      const res = await fetch("api/tasks", {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({ id, complete }),
+      });
+      console.log(res)
+      const data = await retrieval();
+      setTasks(data.tasks);
+    } catch (error) {
+      console.log(error);
+    }finally{
+        setLoading(false)
+    }
+  };
+
   return (
     <>
       <div>
@@ -77,12 +102,16 @@ const TaskCard = () => {
                     <span className="text-sm">{`${date} ${formattedTime}`}</span>
                     <div className="flex justify-between items-center ">
                       <button
-                        onClick={() => (task.completed = true)}
+                      disabled={loading}
+                        onClick={() => {
+        setComplete(!complete);
+                          completeTask(task._id, complete);
+                        }}
                         className={`btn btn-sm ${
-                          task.completed ? "btn-success" : "btn-error"
+                          task.complete ? "btn-success" : "btn-error"
                         }  rounded-full`}
                       >
-                        {task.completed ? "Complete" : "Incomplete"}
+                        {task.complete ? "Complete" : "Incomplete"}
                       </button>
                       <div className="justify-between flex items-center text-xl  space-x-2">
                         <div
