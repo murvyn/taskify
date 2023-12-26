@@ -88,7 +88,7 @@ const TaskCard = () => {
             return (
               <div
                 key={task._id}
-                className="bg-base-100 card border w-full h-[18rem] border-stone-700  "
+                className="bg-base-100 card border w-full h-[18rem] max-sm:h-auto border-stone-700  "
               >
                 <div className="card-body justify-between">
                   <div className="">
@@ -139,7 +139,7 @@ const TaskCard = () => {
             onClick={() => {
               toggleCard();
             }}
-            className="bg-base-100 card border w-full  h-[18rem] border-stone-700 flex justify-center items-center cursor-pointer hover:bg-base-300 "
+            className="bg-base-100 card border w-full max-sm:h-auto h-[18rem] border-stone-700 flex justify-center items-center cursor-pointer hover:bg-base-300 py-5 "
           >
             <FaPlus />
             <span>Add a new task</span>
