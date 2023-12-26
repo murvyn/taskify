@@ -50,7 +50,7 @@ export const authOptions: NextAuthOptions = {
     },
     session: async ({session, token}) => {
       const user = token.user as IUser
-      session.user = user
+      session.user  = user as IUser
       return session
     }
   }
