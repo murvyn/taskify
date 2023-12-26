@@ -1,7 +1,9 @@
 import { connectDB } from "@/lib/mongodb";
 import Task from "@/models/taskSchema";
 import User from "@/models/userSchema";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { authOptions } from "../auth/authOptions";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,9 +31,11 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: Request) {
   try {
+    const session = await getServerSession(authOptions)
+    if(!session?.user) return null
+    const email = session.user.email
     await connectDB();
-    const user = await User.findOne().select("_id");
-    console.log(user)
+    const user = await User.findOne({email}).select("_id");
     const tasks = await Task.find({ user: user._id });
     return NextResponse.json({ message: "Success", tasks }, { status: 201 });
   } catch (error) {

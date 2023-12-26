@@ -4,24 +4,28 @@ import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NextResponse } from "next/server";
+import { IUser } from "@/types";
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {},
       async authorize(credentials: any, req) {
         try {
           if (!credentials?.email || !credentials?.password) return null;
           await connectDB();
-          const user = await User.findOne({ email: credentials.email! });
-          if (!user) return null;
+          const user = await User.findOne({ email: credentials.email! }).select("+password")
+          if (!user){
+            throw new Error("Invalid credentials")
+            return null};
           const passwordMatch = await bcrypt.compare(
             credentials.password,
             user.password
           );
           if (!passwordMatch){
-            console.log('password does not match')
+            throw new Error('Password does not match')
             return null
           }
           return user 
@@ -39,4 +43,15 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/login",
   },
+  callbacks: {
+    jwt: async ({ token, user }) => {
+      user && (token.user = user)
+      return token
+    },
+    session: async ({session, token}) => {
+      const user = token.user as IUser
+      session.user = user
+      return session
+    }
+  }
 };

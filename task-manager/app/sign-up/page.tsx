@@ -1,5 +1,6 @@
 "use client";
 
+import { loginUser } from "@/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -61,9 +62,6 @@ const SignUp = () => {
         body: JSON.stringify({ firstName, lastName, email, password }),
       });
       const data = await res.json()
-      if (res.ok) {
-        reset()
-      }
       if (data.error === "Email already exists") {
         setError('Email already exists')
         setTimeout(() => {
@@ -77,7 +75,10 @@ const SignUp = () => {
         }, 3000)
         return
       }
-      router.push("/")
+      if (res.ok) {
+        await loginUser({email, password})
+        router.push("/")
+      }
     } catch (error) {
       console.log("an error ocurred", error)
     } finally {

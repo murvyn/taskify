@@ -1,20 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { FaPlus, FaEdit } from "react-icons/fa";
 import { IoTrashBin } from "react-icons/io5";
 import NewTaskCard from "./NewTaskCard";
 import { set } from "mongoose";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
-
-export interface TaskProps {
-  title: string;
-  description: string;
-  dateTime: Date;
-  _id: string;
-  completed: boolean;
-  important: boolean;
-}
+import { TaskProps } from "@/types";
 
 const TaskCard = () => {
   const [showCard, setShowCard] = useState(false);
@@ -22,6 +14,7 @@ const TaskCard = () => {
   const [id, setId] = useState("");
   const [tasks, setTasks] = useState<TaskProps[]>([]);
   const { retrieval } = useRetrieval();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const retrieve = async () => {
@@ -38,8 +31,9 @@ const TaskCard = () => {
     setShowUpdateCard(!showUpdateCard);
   };
 
-  const deletedTask = async (id : string) => {
+  const deletedTask = async (id: string) => {
     try {
+      setLoading(true);
       const res = await fetch("api/tasks", {
         method: "DELETE",
         headers: {
@@ -48,17 +42,18 @@ const TaskCard = () => {
         cache: "no-store",
         body: JSON.stringify({ id }),
       });
-      console.log(res)
-      const data = await retrieval()
-      setTasks(data.tasks)
+      console.log(res);
+      const data = await retrieval();
+      setTasks(data.tasks);
     } catch (error) {
       console.log("there was an error", error);
+    } finally {
+      setLoading(false);
     }
   };
-
   return (
     <>
-      <div className="card w-full h-[96vh] bg-base-300 border border-stone-700 shadow-2xl p-5 overflow-hidden hover:overflow-y-scroll">
+      <div>
         <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
           {tasks.map((task) => {
             const date = new Date(task.dateTime).toISOString().split("T")[0];
@@ -99,10 +94,12 @@ const TaskCard = () => {
                         >
                           <FaEdit />
                         </div>
-                        <div className="cursor-pointer" onClick={() => {
-                          // setId(task._id)
-                          deletedTask(task._id)
-                        }}>
+                        <div
+                          className="cursor-pointer"
+                          onClick={() => {
+                            deletedTask(task._id);
+                          }}
+                        >
                           <IoTrashBin />
                         </div>
                       </div>

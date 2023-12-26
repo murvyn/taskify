@@ -1,6 +1,7 @@
 "use client";
 
 import CheckRoute from "@/components/CheckRoute";
+import { loginUser } from "@/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
@@ -36,11 +37,7 @@ export default function Login() {
   const submitHandler = async ({ email, password }: FormData) => {
     try {
       setLoading(true)
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const res = await loginUser({email, password})
       if (res?.error === "CredentialsSignin") {
         setError('Invalid email or password')
         return
@@ -51,6 +48,7 @@ export default function Login() {
         }, 3000)
         return
       }
+      console.log(res)
       router.replace("/")
     } catch (error) {
       console.log("something went wrong", error);

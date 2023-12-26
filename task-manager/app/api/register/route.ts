@@ -11,14 +11,20 @@ export async function POST(request: NextRequest) {
     if (user)
       return NextResponse.json(
         { error: "Email already exists" },
-        { status: 400 }
+        { status: 409 }
       );
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = await User.create({ firstName, lastName, email, password: hashedPassword });
+    const newUser = await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashedPassword,
+    });
+    console.log(newUser)
     return NextResponse.json({ message: "Success", newUser }, { status: 201 });
   } catch (error) {
-    console.log("an error ocurred", error)
+    console.log("an error ocurred", error);
     return NextResponse.json({ error: "an error ocurred" }, { status: 500 });
   }
 }

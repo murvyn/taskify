@@ -1,13 +1,18 @@
-import mongoose from "mongoose"
-import { NextResponse } from "next/server";
+import mongoose from "mongoose";
+
+const { MONGODB_URI } = process.env;
+
+if (!MONGODB_URI) {
+  throw new Error("Missing MONGODB_URI environment variable");
+}
 
 export const connectDB = async () => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI!);
-    return console.log("connected to mongodb...");
+    const { connection } = await mongoose.connect(MONGODB_URI);
+    if (connection.readyState === 1) {
+      return Promise.resolve(true);
+    }
   } catch (error) {
-    console.log("there was an error", error);
-    return NextResponse.json({ error: "an error ocurred" }, { status: 500 });
+    return Promise.reject(error);
   }
 };
-

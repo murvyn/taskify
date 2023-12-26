@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { ZodType, z } from "zod";
-import { TaskProps } from "./TaskCard";
+import { TaskProps } from "./TaskBox";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import { useRouter } from "next/navigation";
 import { revalidatePath } from "next/cache";

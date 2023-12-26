@@ -1,6 +1,6 @@
 "use client";
 
-import { TaskProps } from "@/components/TaskCard";
+import { TaskProps } from "@/components/TaskBox";
 import { useState } from "react";
 
 export const useRetrieval = () => {

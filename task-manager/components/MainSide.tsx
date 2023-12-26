@@ -5,12 +5,15 @@ import SidebarLinks from './SidebarLinks'
 import noUser from '@/public/no-user.jpg'
 import { LuLogOut } from "react-icons/lu"
 import { signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation'
 
 const MainSide = ({show}: {show: boolean}) => {
   const {status, data: session} = useSession()
-  console.log(session?.user)
+  const route = useRouter()
+  // console.log(session?.user)
     const handle = async () => {
         await signOut()
+        route.push('/login')
       }
   return (
     <div className={`max-sm:hidden card bg-base-200  ${show ? 'w-[5rem]' : 'w-[15rem]'} h-[96vh] items-center justify-between py-5 border border-stone-700 bg-base-300 shadow-xl  `}>
