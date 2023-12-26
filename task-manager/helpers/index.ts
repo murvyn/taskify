@@ -11,13 +11,3 @@ export const loginUser = async ({ email, password }: LoginUserProps) => {
   });
   return res;
 };
-
-export const completeTask = async (id: string, bool: boolean) => {
-  try {
-    await connectDB();
-    const task = await Task.findById(id);
-    task.complete = bool;
-  } catch (error) {
-    console.log(error)
-  }
-};

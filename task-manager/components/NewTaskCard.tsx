@@ -1,14 +1,11 @@
 "use client";
-import { connectDB } from "@/lib/mongodb";
-import User from "@/models/userSchema";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPlus, FaTimes } from "react-icons/fa";
-import { ZodType, z } from "zod";
+import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
-import { useRouter } from "next/navigation";
-import { revalidatePath } from "next/cache";
 
 interface TaskData {
   title: string;

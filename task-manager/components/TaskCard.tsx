@@ -1,14 +1,11 @@
 "use client";
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus, FaEdit } from "react-icons/fa";
 import { IoTrashBin } from "react-icons/io5";
 import NewTaskCard from "./NewTaskCard";
-import { set } from "mongoose";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
-import { connectDB } from "@/lib/mongodb";
-// import { completeTask } from "@/helpers";
 
 const TaskCard = () => {
   const [showCard, setShowCard] = useState(false);
