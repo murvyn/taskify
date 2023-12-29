@@ -12,10 +12,10 @@ export async function POST(request: NextRequest) {
     const tit = title.trim();
     const des = description.trim();
     const session = await getServerSession(authOptions);
-    if (!session?.user) throw new Error('No user');
+    if (!session?.user) throw new Error("No user");
     const email = session?.user?.email;
     await connectDB();
-    const user = await User.findOne({email}).select("_id");
+    const user = await User.findOne({ email }).select("_id");
     const dateTimeString = `${date} ${time}`;
     const task = new Task({
       title: tit,
@@ -36,15 +36,15 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(request: Request): Promise<NextResponse<any> | null> {
+export async function GET(): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) return null;
+    if (!session?.user) throw new Error("No user");
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
-    if(!user){
-      return NextResponse.redirect('/login')
+    if (!user) {
+      return NextResponse.redirect("/login");
     }
     const tasks = await Task.find({ user: user._id });
     return NextResponse.json({ message: "Success", tasks }, { status: 201 });
@@ -72,7 +72,9 @@ export async function PUT(request: NextRequest) {
     if (description !== undefined && description.trim() !== "") {
       tasks.description = description.trim();
     }
-    if(complete) {tasks.complete = complete}
+    if (complete) {
+      tasks.complete = complete;
+    }
     const data = await tasks.set({
       important,
       dateTime: new Date(dateTime),
@@ -118,22 +120,21 @@ export async function DELETE(request: NextRequest) {
   }
 }
 
-
-export async function PATCH (request: NextRequest){
-  try{
-    const {id, complete} = await request.json()
-    await connectDB()
-    const task = await Task.findById(id)
+export async function PATCH(request: NextRequest) {
+  try {
+    const { id, complete } = await request.json();
+    await connectDB();
+    const task = await Task.findById(id);
     if (!task)
-    return NextResponse.json({ error: "Task not found" }, { status: 500 });
-  task.complete = !complete
-  const res = await task.save();
-  console.log(res);
-  return NextResponse.json(
-    { message: "Task complete successfully", task },
-    { status: 201 }
-  );
-  }catch(error){
+      return NextResponse.json({ error: "Task not found" }, { status: 500 });
+    task.complete = !complete;
+    const res = await task.save();
+    console.log(res);
+    return NextResponse.json(
+      { message: "Task complete successfully", task },
+      { status: 201 }
+    );
+  } catch (error) {
     console.log("patch error", error);
     return NextResponse.json(
       { error: "an error ocurred in patch" },
