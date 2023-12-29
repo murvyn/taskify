@@ -1,12 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
-import { GrUpdate } from "react-icons/gr"
+import { GrUpdate } from "react-icons/gr";
+import { TaskContext } from "@/contexts/taskContext";
 
 interface TaskData {
   title: string;
@@ -18,14 +19,13 @@ interface TaskData {
 }
 interface Props {
   toggleCard: () => void;
-  id: string
-  setTasks: (tasks: any[]) => void
+  id: string;
 }
 
-const UpdateTaskCard = ({ toggleCard, id, setTasks }: Props) => {
+const UpdateTaskCard = ({ toggleCard, id }: Props) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
-
+  const { setTasks } = useContext(TaskContext);
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
@@ -93,12 +93,12 @@ const UpdateTaskCard = ({ toggleCard, id, setTasks }: Props) => {
         headers: {
           "Content-type": "application/json",
         },
-        cache: 'no-store',
+        cache: "no-store",
         body: JSON.stringify({ title, time, description, date, important, id }),
       });
-      console.log(res)
-      const data = await retrieval()
-      setTasks(data.tasks)
+      console.log(res);
+      const data = await retrieval();
+      setTasks(data.tasks);
       toggleCard();
     } catch (error) {
       console.log("there was an error", error);

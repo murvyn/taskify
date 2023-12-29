@@ -1,21 +1,26 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FaPlus, FaEdit } from "react-icons/fa";
 import { IoTrashBin } from "react-icons/io5";
 import NewTaskCard from "./NewTaskCard";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
-import { signOut } from "next-auth/react";
+import { TaskContext } from "@/contexts/taskContext";
 
-const TaskCard = () => {
+interface Props {
+  tasks?: TaskProps[];
+}
+
+const TaskCard = ({ tasks }: Props) => {
   const [showCard, setShowCard] = useState(false);
   const [showUpdateCard, setShowUpdateCard] = useState(false);
   const [id, setId] = useState("");
-  const [tasks, setTasks] = useState<TaskProps[]>([]);
   const { retrieval } = useRetrieval();
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(true);
+
+  const { setTasks } = useContext(TaskContext);
 
   useEffect(() => {
     const retrieve = async () => {
@@ -55,8 +60,8 @@ const TaskCard = () => {
 
   const completeTask = async (id: string, complete: boolean) => {
     try {
-        setLoading(true)
-        
+      setLoading(true);
+
       const res = await fetch("api/tasks", {
         method: "PATCH",
         headers: {
@@ -64,14 +69,14 @@ const TaskCard = () => {
         },
         body: JSON.stringify({ id, complete }),
       });
-      console.log(res)
+      console.log(res);
       const data = await retrieval();
-      console.log(data)
+      console.log(data);
       setTasks(data.tasks);
     } catch (error) {
       console.log(error);
-    }finally{
-        setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,9 +106,9 @@ const TaskCard = () => {
                     <span className="text-sm">{`${date} ${formattedTime}`}</span>
                     <div className="flex justify-between items-center ">
                       <button
-                      disabled={loading}
+                        disabled={loading}
                         onClick={() => {
-        setComplete(!complete);
+                          setComplete(!complete);
                           completeTask(task._id, complete);
                         }}
                         className={`btn btn-sm ${
@@ -148,13 +153,9 @@ const TaskCard = () => {
           </div>
         </div>
       </div>
-      {showCard && <NewTaskCard toggleCard={toggleCard} setTasks={setTasks} />}
+      {showCard && <NewTaskCard toggleCard={toggleCard} />}
       {showUpdateCard && (
-        <UpdateTaskCard
-          toggleCard={toggleUpdateCard}
-          setTasks={setTasks}
-          id={id}
-        />
+        <UpdateTaskCard toggleCard={toggleUpdateCard} id={id} />
       )}
     </>
   );

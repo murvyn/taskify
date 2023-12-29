@@ -1,11 +1,12 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
+import { TaskContext } from "@/contexts/taskContext";
 
 interface TaskData {
   title: string;
@@ -17,12 +18,12 @@ interface TaskData {
 }
 interface Props {
   toggleCard: () => void;
-  setTasks: (tasks: any[]) => void;
 }
 
-const NewTaskCard = ({ toggleCard, setTasks }: Props) => {
+const NewTaskCard = ({ toggleCard }: Props) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
+  const { setTasks } = useContext(TaskContext);
 
   const currentDate = new Date();
   const currentDay = currentDate.getDate();

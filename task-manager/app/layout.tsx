@@ -6,6 +6,7 @@ import SideBar from "@/components/SideBar";
 import CheckRoute from "@/components/CheckRoute";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/authOptions";
+import { TaskProvider } from "@/contexts/taskContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,10 +25,12 @@ export default async function RootLayout({
     <html data-theme="halloween" lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <main className="p-5 flex gap-2">
-            <CheckRoute />
-            {children}
-          </main>
+          <TaskProvider>
+            <main className="p-5 flex gap-2">
+              <CheckRoute />
+              {children}
+            </main>
+          </TaskProvider>
         </AuthProvider>
       </body>
     </html>

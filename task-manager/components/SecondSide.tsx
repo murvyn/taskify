@@ -7,7 +7,12 @@ import { LuLogOut } from "react-icons/lu";
 import { signOut, useSession } from "next-auth/react";
 import { IUser } from "@/types";
 
-const SecondSide = ({ show }: { show: boolean }) => {
+interface Props {
+  show: boolean;
+  setShow: (value: boolean) => void;
+}
+
+const SecondSide = ({ show, setShow }: Props) => {
   const { status, data: session } = useSession();
   const user = session?.user! as IUser;
   const handle = async () => {
@@ -40,7 +45,7 @@ const SecondSide = ({ show }: { show: boolean }) => {
           )}
         </span>
       </div>
-      <SidebarLinks show={show} />
+      <SidebarLinks setShow={setShow} show={show} />
       <div>
         <button className="btn btn-ghost rounded-none text-xl" onClick={handle}>
           <LuLogOut className="text-primary" />
