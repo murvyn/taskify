@@ -45,7 +45,6 @@ export default function Login() {
         }, 3000)
         return
       }
-      console.log(res)
       if (res?.ok) {
         router.push("/")
       }
@@ -57,12 +56,12 @@ export default function Login() {
   };
   return (
     <>
-      <div className="justify-center items-center w-full h-[100vh] flex  ">
+      <div className="justify-center items-center w-[100vw] h-[100vh] flex  ">
         <div className="items-center flex flex-col">
-          <h1 className="mb-1 text-4xl font-bold">Welcome to Taskify</h1>
+          <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">Welcome to Taskify</h1>
           <h2 className="text-xl">Log in to Manage Tasks</h2>
           <form
-            className="w-96 m-8 space-y-4"
+            className="w-96 max-sm:w-72 m-8 space-y-4"
             onSubmit={handleSubmit(submitHandler)}
           >
             <div className="mb-3">
