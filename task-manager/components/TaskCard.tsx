@@ -6,6 +6,7 @@ import NewTaskCard from "./NewTaskCard";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
+import { signOut } from "next-auth/react";
 
 const TaskCard = () => {
   const [showCard, setShowCard] = useState(false);
@@ -65,6 +66,7 @@ const TaskCard = () => {
       });
       console.log(res)
       const data = await retrieval();
+      console.log(data)
       setTasks(data.tasks);
     } catch (error) {
       console.log(error);
@@ -77,7 +79,7 @@ const TaskCard = () => {
     <>
       <div>
         <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
-          {tasks.map((task) => {
+          {tasks?.map((task) => {
             const date = new Date(task.dateTime).toISOString().split("T")[0];
             const time = new Date(task.dateTime).toTimeString().split(" ")[0];
             const formattedTime = time

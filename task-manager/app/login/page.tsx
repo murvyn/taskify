@@ -1,14 +1,11 @@
 "use client";
 
-import CheckRoute from "@/components/CheckRoute";
 import { loginUser } from "@/helpers";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaBullseye } from "react-icons/fa6";
 import { ZodType, z } from "zod";
 
 interface FormData {
@@ -49,7 +46,9 @@ export default function Login() {
         return
       }
       console.log(res)
-      router.replace("/")
+      if (res?.ok) {
+        router.push("/")
+      }
     } catch (error) {
       console.log("something went wrong", error);
     } finally {

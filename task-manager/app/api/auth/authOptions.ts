@@ -16,22 +16,27 @@ export const authOptions: NextAuthOptions = {
         try {
           if (!credentials?.email || !credentials?.password) return null;
           await connectDB();
-          const user = await User.findOne({ email: credentials.email! }).select("+password")
-          if (!user){
-            throw new Error("Invalid credentials")
-            return null};
+          const user = await User.findOne({ email: credentials.email! }).select(
+            "+password"
+          );
+          console.log("user", user);
+          if (!user) {
+            return null;
+          }
           const passwordMatch = await bcrypt.compare(
             credentials.password,
             user.password
           );
-          if (!passwordMatch){
-            throw new Error('Password does not match')
-            return null
+          if (!passwordMatch) {
+            return null;
           }
-          return user 
+          return user;
         } catch (error) {
-          // console.log("an error ocurred", error);
-          return NextResponse.json({ error: "an error ocurred" }, { status: 500 });
+          console.log("an error ocurred", error);
+          return NextResponse.json(
+            { error: "an error ocurred" },
+            { status: 500 }
+          );
         }
       },
     }),
@@ -45,13 +50,13 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     jwt: async ({ token, user }) => {
-      user && (token.user = user)
-      return token
+      user && (token.user = user);
+      return token;
     },
-    session: async ({session, token}) => {
-      const user = token.user as IUser
-      session.user  = user as IUser
-      return session
-    }
-  }
+    session: async ({ session, token }) => {
+      const user = token.user as IUser;
+      session.user = user as IUser;
+      return session;
+    },
+  },
 };
