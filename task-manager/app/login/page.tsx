@@ -45,9 +45,10 @@ export default function Login() {
         }, 3000)
         return
       }
-      if (res?.ok) {
-        router.push("/")
-      }
+      console.log(res)
+      // if (res?.ok) {
+      //   router.push("/")
+      // }
     } catch (error) {
       console.log("something went wrong", error);
     } finally {
