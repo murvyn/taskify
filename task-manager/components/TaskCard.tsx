@@ -18,7 +18,7 @@ const TaskCard = ({ tasks }: Props) => {
   const [id, setId] = useState("");
   const { retrieval } = useRetrieval();
   const [loading, setLoading] = useState(false);
-  const [complete, setComplete] = useState(true);
+  const [complete, setComplete] = useState(false);
 
   const { setTasks } = useContext(TaskContext);
 
@@ -40,7 +40,7 @@ const TaskCard = ({ tasks }: Props) => {
   const deletedTask = async (id: string) => {
     try {
       setLoading(true);
-      const res = await fetch("api/tasks", {
+      await fetch("api/tasks", {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
@@ -48,7 +48,6 @@ const TaskCard = ({ tasks }: Props) => {
         cache: "no-store",
         body: JSON.stringify({ id }),
       });
-      console.log(res);
       const data = await retrieval();
       setTasks(data.tasks);
     } catch (error) {
@@ -61,17 +60,14 @@ const TaskCard = ({ tasks }: Props) => {
   const completeTask = async (id: string, complete: boolean) => {
     try {
       setLoading(true);
-
-      const res = await fetch("api/tasks", {
+      await fetch("api/tasks", {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify({ id, complete }),
       });
-      console.log(res);
       const data = await retrieval();
-      console.log(data);
       setTasks(data.tasks);
     } catch (error) {
       console.log(error);
@@ -108,8 +104,8 @@ const TaskCard = ({ tasks }: Props) => {
                       <button
                         disabled={loading}
                         onClick={() => {
-                          setComplete(!complete);
-                          completeTask(task._id, complete);
+                          setComplete(!task.complete);
+                          completeTask(task._id, task.complete);
                         }}
                         className={`btn btn-sm ${
                           task.complete ? "btn-success" : "btn-error"

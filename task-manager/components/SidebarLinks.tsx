@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 import { FaHome, FaCheck, FaClipboard } from "react-icons/fa";
 import { FaListCheck } from "react-icons/fa6";
@@ -12,10 +13,11 @@ const links = [
   { name: "All Tasks", route: "/", icon: <FaHome /> },
   { name: "Important", route: "/important", icon: <FaListCheck /> },
   { name: "Completed", route: "/completed", icon: <FaCheck /> },
-  { name: "Do it Now", route: "/do-it-now", icon: <FaClipboard /> },
+  { name: "Do it Today", route: "/do-it-today", icon: <FaClipboard /> },
 ];
 
 const SidebarLinks = ({ show, setShow }: Props) => {
+  const router = usePathname()
   return (
     <div className="w-full">
       {links.map((link, index) => (
@@ -31,7 +33,7 @@ const SidebarLinks = ({ show, setShow }: Props) => {
             onClick={() => setShow && setShow(!show)}
             className={`border-r-4 hover:border-r-primary btn btn-ghost rounded-none flex justify-center items-center space-x-5  sm:${
               show && "w-[5rem]"
-            } `}
+            } ${router === link.route ? "border-r-primary" : ""} `}
           >
             {link.icon}
             <p className={`sm:${show && "hidden"}`}>{link.name}</p>

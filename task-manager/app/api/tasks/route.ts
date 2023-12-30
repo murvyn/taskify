@@ -72,8 +72,8 @@ export async function PUT(request: NextRequest) {
     if (description !== undefined && description.trim() !== "") {
       tasks.description = description.trim();
     }
-    if (complete) {
-      tasks.complete = complete;
+    if (complete || !complete) {
+      tasks.complete = !tasks.complete;
     }
     const data = await tasks.set({
       important,
