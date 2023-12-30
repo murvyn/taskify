@@ -10,11 +10,11 @@ import { IUser } from "@/types";
 
 const MainSide = ({ show }: { show: boolean }) => {
   const { status, data: session } = useSession();
-  const route = useRouter();
   const user = session?.user! as IUser;
+  const router = useRouter();
   const handle = async () => {
     await signOut();
-    route.push("/login");
+    // router.push("/login");
   };
   return (
     <div
@@ -28,14 +28,19 @@ const MainSide = ({ show }: { show: boolean }) => {
         }`}
         data-tip="User Profile"
       >
-        <div className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4">
-          <Image
-            src={noUser}
-            width={60}
-            height={60}
-            alt="image"
-            className="rounded-full object-cover"
-          />
+        <div
+          onClick={() => router.push("/profile")}
+          className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
+        >
+          <div className="avatar">
+            <Image
+              src={noUser}
+              width={60}
+              height={60}
+              alt="image"
+              className="rounded-full object-cover cursor-pointer"
+            />
+          </div>
           <span
             className={`${
               show && "hidden"

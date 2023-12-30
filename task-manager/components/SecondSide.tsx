@@ -6,6 +6,7 @@ import noUser from "@/public/no-user.jpg";
 import { LuLogOut } from "react-icons/lu";
 import { signOut, useSession } from "next-auth/react";
 import { IUser } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface Props {
   show: boolean;
@@ -14,6 +15,8 @@ interface Props {
 
 const SecondSide = ({ show, setShow }: Props) => {
   const { status, data: session } = useSession();
+  const router = useRouter();
+
   const user = session?.user! as IUser;
   const handle = async () => {
     await signOut();
@@ -24,13 +27,16 @@ const SecondSide = ({ show, setShow }: Props) => {
         show ? "inline fixed w-full h-full z-40 top-0 left-0 " : "hidden"
       } sm:hidden card bg-base-200 sm:${`w-[15rem] h-[96vh]  flex items-center justify-between py-5`} border border-stone-700 bg-base-300 `}
     >
-      <div className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4">
+      <div
+        onClick={() => router.push("/profile")}
+        className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
+      >
         <Image
           src={noUser}
           width={60}
           height={60}
           alt="image"
-          className="rounded-full object-cover"
+          className="rounded-full object-cover cursor-pointer"
         />
         <span className="text-xl font-bold text-center  xl:text-left max-sm:text-left cursor-pointer inline-block -sm:hidden ">
           {status === "loading" ? (
