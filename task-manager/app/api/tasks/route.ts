@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
 export async function GET(): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) throw new Error("No user");
+    if (!session?.user) return NextResponse.redirect("/login");
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");

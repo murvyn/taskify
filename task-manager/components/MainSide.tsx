@@ -8,13 +8,12 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/types";
 
-const MainSide = ({ show }: { show: boolean }) => {
-  const { status, data: session } = useSession();
-  const user = session?.user! as IUser;
+const MainSide =  ({ show }: { show: boolean }) => {
+  const {status, data: session} = useSession()
+  const user = session?.user as IUser
   const router = useRouter();
   const handle = async () => {
     await signOut();
-    // router.push("/login");
   };
   return (
     <div
@@ -52,7 +51,7 @@ const MainSide = ({ show }: { show: boolean }) => {
                 <div className="skeleton h-4 w-28"></div>
               </div>
             ) : (
-              <p>
+              <p className="capitalize">
                 {user && user.firstName} <br /> {user && user.lastName}
               </p>
             )}

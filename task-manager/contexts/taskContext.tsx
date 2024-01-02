@@ -1,8 +1,6 @@
 "use client";
-
-import { useRetrieval } from "@/hooks/useRetrieval";
 import { ChildrenProps, TaskContextProps, TaskProps } from "@/types";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export const TaskContext = createContext<TaskContextProps>({
   tasks: [],

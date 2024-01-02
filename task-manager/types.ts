@@ -30,3 +30,11 @@ export interface TaskContextProps {
   tasks?: TaskProps[];
   setTasks: Dispatch<SetStateAction<TaskProps[]>>;
 }
+
+
+export interface UserContextProps {
+  user?: IUser;
+  loading?: boolean;
+  setUser: (value: IUser) => void;
+  setLoading: (value: boolean) => void;
+}

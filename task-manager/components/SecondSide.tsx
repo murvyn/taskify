@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useContext } from "react";
 import SidebarLinks from "./SidebarLinks";
 import noUser from "@/public/no-user.jpg";
 import { LuLogOut } from "react-icons/lu";
 import { signOut, useSession } from "next-auth/react";
-import { IUser } from "@/types";
 import { useRouter } from "next/navigation";
+import { UserContext } from "@/contexts/userContext";
+import { IUser } from "@/types";
 
 interface Props {
   show: boolean;
@@ -14,10 +15,9 @@ interface Props {
 }
 
 const SecondSide = ({ show, setShow }: Props) => {
-  const { status, data: session } = useSession();
   const router = useRouter();
-
-  const user = session?.user! as IUser;
+  const { status, data: session } = useSession();
+  const user = session?.user as IUser;
   const handle = async () => {
     await signOut();
   };
@@ -28,7 +28,10 @@ const SecondSide = ({ show, setShow }: Props) => {
       } sm:hidden card bg-base-200 sm:${`w-[15rem] h-[96vh]  flex items-center justify-between py-5`} border border-stone-700 bg-base-300 `}
     >
       <div
-        onClick={() => router.push("/profile")}
+        onClick={() => {
+          router.push("/profile");
+          setShow && setShow(!show);
+        }}
         className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
       >
         <Image
@@ -45,7 +48,7 @@ const SecondSide = ({ show, setShow }: Props) => {
               <div className="skeleton h-4 w-28"></div>
             </div>
           ) : (
-            <p>
+            <p className="capitalize">
               {user && user.firstName} <br /> {user && user.lastName}
             </p>
           )}

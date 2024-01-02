@@ -1,7 +1,7 @@
 "use client";
 import React, { Suspense, useContext } from "react";
-import CardLoading from "@/components/CardLoading";
 import { TaskContext } from "@/contexts/taskContext";
+import Loading from "../loading";
 
 const TaskCard = React.lazy(() => import("@/components/TaskCard"));
 
@@ -18,12 +18,12 @@ const DoItTodayBox = () => {
   });
   return (
     <>
-      <div className="card w-full h-[96vh] bg-base-300 border border-stone-700 shadow-2xl p-5 overflow-hidden sm:hover:overflow-y-scroll max-sm:overflow-y-scroll">
+      <div>
         <h2 className="card-title mb-5 w-auto flex flex-col items-start ">
           Do It Today
           <span className=" w-1/12 h-1 bg-primary"></span>
         </h2>
-        <Suspense fallback={<CardLoading />}>
+        <Suspense fallback={<Loading />}>
           <TaskCard tasks={DoItTodayTasks} />
         </Suspense>
       </div>
