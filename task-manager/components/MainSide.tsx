@@ -13,7 +13,9 @@ const MainSide =  ({ show }: { show: boolean }) => {
   const user = session?.user as IUser
   const router = useRouter();
   const handle = async () => {
-    await signOut();
+    const res = await signOut();
+    console.log(res)
+    router.push("/login")
   };
   return (
     <div
