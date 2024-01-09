@@ -16,7 +16,7 @@ const Home =  () => {
       <div className="w-[100vw] h-[100vh] flex flex-col justify-center items-center ">
         <h1 className="text-7xl mb-1 font-bold text-center overflow-hidden">Taskify</h1>
         <h1 className="text-2xl  text-center overflow-hidden">{text[0]}</h1>
-        <button onClick={() => router.push('/login')} className="btn btn-primary fixed bottom-80 px-7">Login</button>
+        <button onClick={() => router.push('/login')} className="btn btn-primary px-7 mt-10">Login</button>
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { FaHome } from "react-icons/fa";
 import { ZodType, z } from "zod";
 
 interface FormData {
@@ -87,6 +88,9 @@ const SignUp = () => {
   };
   return (
     <>
+    <div className="m-3">
+      <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
+    </div>
       <div className="flex justify-center items-center w-full h-[100vh]">
         <div className="flex flex-col items-center">
           <h1 className="mb-1 font-bold text-4xl">Join Taskify

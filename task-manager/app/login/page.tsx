@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ZodType, z } from "zod";
+import {FaHome} from 'react-icons/fa'
 
 interface FormData {
   email: string;
@@ -57,6 +58,9 @@ export default function Login() {
   };
   return (
     <>
+    <div className="m-3">
+      <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
+    </div>
       <div className="justify-center items-center w-[100vw] h-[100vh] flex  ">
         <div className="items-center flex flex-col">
           <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">Welcome to Taskify</h1>
