@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types";
+import { FaTimes } from "react-icons/fa";
 
 interface FormData {
   firstName?: string;
@@ -20,6 +21,7 @@ const UserProfile = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editInfo, setEditInfo] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
   const { update, data: session, status } = useSession();
   const user = session?.user as IUser;
   const schema: ZodType<FormData> = z.object({
@@ -32,7 +34,7 @@ const UserProfile = () => {
     oldPassword: z.string().optional(),
     newPassword: z
       .string()
-      .max(6, "Password has to be 6 letters long")
+      .min(6, "Password has to be 6 letters long")
       .optional(),
   });
 
@@ -40,7 +42,8 @@ const UserProfile = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset, getFieldState
+    reset,
+    getFieldState,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
@@ -48,7 +51,7 @@ const UserProfile = () => {
   const submit = async (data: FormData) => {
     try {
       setLoading(true);
-      const res = await fetch("api/user", {
+      const res = await fetch("/api/user", {
         method: "PUT",
         headers: {
           "Content-type": "application/json",
@@ -59,13 +62,13 @@ const UserProfile = () => {
       if (res.ok) {
         await update({ ...session, user: { ...response.res } });
         reset();
-        setError('')
+        setError("");
         setEditInfo(false);
+        setChangePassword(false)
       }
       if (response.error === "incorrect password") {
         setError(response.error);
       }
-      
     } catch (error) {
       console.log(error);
     } finally {
@@ -119,22 +122,34 @@ const UserProfile = () => {
               className="input input-bordered w-full sm:w-96 mb-4 capitalize  "
             />
             {errors.lastName && <span>{errors.lastName.message}</span>}
-            <input
-              disabled={true}
-              type="text"
-              placeholder={user && user?.email}
-              className="input input-bordered w-full sm:w-96 mb-4"
-            />
-            <input
-              {...register("oldPassword")}
-              disabled={!editInfo}
-              type="password"
-              placeholder={!editInfo ? "*********" : "Old Password"}
-              className="input input-bordered w-full sm:w-96 mb-4"
-            />
+            {!editInfo && (
+              <input
+                disabled={true}
+                type="text"
+                placeholder={user && user?.email}
+                className="input input-bordered w-full sm:w-96 mb-4"
+              />
+            )}
+            <div className="flex flex-row">
+              <input
+                {...register("oldPassword")}
+                disabled={!changePassword}
+                type="password"
+                placeholder={!editInfo ? "*********" : "Old Password"}
+                className="input input-bordered w-full sm:w-96 mb-4"
+              />
+              {editInfo && (
+                <span
+                  onClick={() => setChangePassword(!changePassword)}
+                  className="btn btn-ghost"
+                >
+                  {changePassword ? <FaTimes /> : <FaRegPenToSquare />}
+                </span>
+              )}
+            </div>
             {error && <span className="text-error">{error}</span>}
 
-            {editInfo && (
+            {changePassword && (
               <>
                 <input
                   {...register("newPassword")}
@@ -143,8 +158,12 @@ const UserProfile = () => {
                   className="input input-bordered w-full sm:w-96 mb-4"
                 />
                 {errors.newPassword && (
-                  <span>{errors.newPassword.message}</span>
+                  <span className="text-error">{errors.newPassword.message}</span>
                 )}
+              </>
+            )}
+            {editInfo && (
+              <>
                 <div className="flex flex-row gap-3 mt-5">
                   <button
                     disabled={loading}
@@ -161,7 +180,7 @@ const UserProfile = () => {
                     className="btn btn-error"
                     onClick={() => {
                       setEditInfo(false);
-                      setError('')
+                      setError("");
                       reset();
                     }}
                   >

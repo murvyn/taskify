@@ -30,7 +30,7 @@ const MainSide =  ({ show }: { show: boolean }) => {
         data-tip="User Profile"
       >
         <div
-          onClick={() => router.push("/profile")}
+          onClick={() => router.push("/dashboard/profile")}
           className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
         >
           <div className="avatar">
