@@ -1,21 +1,26 @@
 "use client";
-import React, { Suspense, useContext } from "react";
+import React, { Suspense, useContext, useEffect } from "react";
 import { TaskContext } from "@/contexts/taskContext";
 import Loading from "../../loading";
+import { isSameDate } from "@/helpers";
 
 const TaskCard = React.lazy(() => import("@/components/TaskCard"));
 
 const DoItTodayBox = () => {
-  const { tasks } = useContext(TaskContext);
+  const { tasks, setAllTaskCount, setCompletedCount, setImportantCount, setTodayCount, allTaskCount, completedCount, importantCount, todayCount } = useContext(TaskContext);
+  const completedTasks = tasks?.filter((task) => task.complete === true);
   const currentDate = new Date();
-  const isSameDate = (date1: Date, date2: Date) =>
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate();
-
+  const importantTasks = tasks?.filter((task) => task.important === true);
   const DoItTodayTasks = tasks?.filter((task) => {
     return isSameDate(new Date(task.dateTime), currentDate);
   });
+  useEffect(()=>{
+    setAllTaskCount(tasks!.length)
+    setCompletedCount(completedTasks!.length)
+    setTodayCount(DoItTodayTasks!.length)
+    setImportantCount(importantTasks!.length)
+  },[allTaskCount, completedCount, importantCount, todayCount, DoItTodayTasks, importantTasks, tasks, completedTasks])
+  
   return (
     <>
       <div>

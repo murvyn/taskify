@@ -29,6 +29,14 @@ export interface ChildrenProps {
 export interface TaskContextProps {
   tasks?: TaskProps[];
   setTasks: Dispatch<SetStateAction<TaskProps[]>>;
+  setImportantCount: Dispatch<SetStateAction<number>>;
+  setCompletedCount: Dispatch<SetStateAction<number>>;
+  setAllTaskCount: Dispatch<SetStateAction<number>>;
+  setTodayCount: Dispatch<SetStateAction<number>>;
+  importantCount: number
+  completedCount: number
+  allTaskCount: number
+  todayCount: number
 }
 
 

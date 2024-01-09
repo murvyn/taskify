@@ -1,9 +1,5 @@
-import { UserContext } from "@/contexts/userContext";
-import { connectDB } from "@/lib/mongodb";
-import Task from "@/models/taskSchema";
 import { LoginUserProps, UserContextProps } from "@/types";
 import { signIn } from "next-auth/react";
-import { useContext } from "react";
 
 export const loginUser = async ({ email, password }: LoginUserProps) => {
   const res = await signIn("credentials", {
@@ -31,3 +27,12 @@ export const fetchUser = async ({setLoading, setUser, user}: UserContextProps) =
     setLoading(false)
   }
 };
+
+export const isSameDate = (date1: Date, date2: Date) =>
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate();
+    
+export const isSameTime = (date1: Date, date2: Date) =>
+    date1.getHours() === date2.getHours() &&
+    date1.getMinutes() === date2.getMonth()
