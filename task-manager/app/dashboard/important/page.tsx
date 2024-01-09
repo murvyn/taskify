@@ -1,26 +1,26 @@
 "use client";
 import React, { Suspense, useContext } from "react";
 import { TaskContext } from "@/contexts/taskContext";
-import Loading from "../loading";
+import Loading from "../../loading";
 
 const TaskCard = React.lazy(() => import("@/components/TaskCard"));
 
-const CompletedBox = () => {
+const ImportantBox = () => {
   const { tasks } = useContext(TaskContext);
-  const completedTasks = tasks?.filter((task) => task.complete === true);
+  const importantTasks = tasks?.filter((task) => task.important === true);
   return (
     <>
-      <div>
+      <div >
         <h2 className="card-title mb-5 w-auto flex flex-col items-start ">
-          Completed
+          Important
           <span className=" w-1/12 h-1 bg-primary"></span>
         </h2>
         <Suspense fallback={<Loading />}>
-          <TaskCard tasks={completedTasks} />
+          <TaskCard tasks={importantTasks} />
         </Suspense>
       </div>
     </>
   );
 };
 
-export default CompletedBox;
+export default ImportantBox;

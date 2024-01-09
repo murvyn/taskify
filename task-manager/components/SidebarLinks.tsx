@@ -10,10 +10,10 @@ interface Props {
 }
 
 const links = [
-  { name: "All Tasks", route: "/", icon: <FaHome /> },
-  { name: "Important", route: "/important", icon: <FaListCheck /> },
-  { name: "Completed", route: "/completed", icon: <FaCheck /> },
-  { name: "Do it Today", route: "/do-it-today", icon: <FaClipboard /> },
+  { name: "All Tasks", route: "/dashboard", icon: <FaHome /> },
+  { name: "Important", route: "/dashboard/important", icon: <FaListCheck /> },
+  { name: "Completed", route: "/dashboard/completed", icon: <FaCheck /> },
+  { name: "Do it Today", route: "/dashboard/do-it-today", icon: <FaClipboard /> },
 ];
 
 const SidebarLinks = ({ show, setShow }: Props) => {

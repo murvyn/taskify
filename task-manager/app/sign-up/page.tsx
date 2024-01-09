@@ -77,7 +77,7 @@ const SignUp = () => {
       }
       if (res.ok) {
         await loginUser({email, password})
-        router.push("/")
+        router.push("/dashboard")
       }
     } catch (error) {
       console.log("an error ocurred", error)

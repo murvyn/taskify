@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
-
 export const useRetrieval = () => {
   const retrieval = async () => {
     try {
-      const data = await fetch("api/tasks", {
+      const data = await fetch("/api/tasks", {
         method: "GET",
         cache: "no-store",
         headers: {

@@ -20,6 +20,7 @@ const SecondSide = ({ show, setShow }: Props) => {
   const user = session?.user as IUser;
   const handle = async () => {
     await signOut();
+    router.push("/")
   };
   return (
     <div
@@ -29,7 +30,7 @@ const SecondSide = ({ show, setShow }: Props) => {
     >
       <div
         onClick={() => {
-          router.push("/profile");
+          router.push("/dashboard/profile");
           setShow && setShow(!show);
         }}
         className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"

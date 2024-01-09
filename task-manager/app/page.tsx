@@ -1,16 +1,22 @@
-import { getServerSession } from "next-auth";
+'use client'
+import { useRouter } from "next/navigation";
 import React from "react";
-import { authOptions } from "./api/auth/authOptions";
-import { redirect } from "next/navigation";
-import TaskBox from "@/components/TaskBox";
+import { useTypewriter } from "react-simple-typewriter";
 
-const Home = async () => {
-  const session = await getServerSession(authOptions);
-  if (!session) redirect("/login");
+const Home =  () => {
+  const router = useRouter()
+  const text  = useTypewriter({
+    words:  ["Organize Your Life", "Boost Productivity", "Stay Organized", "Manage Tasks Effortlessly"],
+    loop: true,
+    typeSpeed: 100,
+    deleteSpeed: 80
+  })
   return (
     <>
-      <div className="w-full">
-        <TaskBox />
+      <div className="w-[100vw] h-[100vh] flex flex-col justify-center items-center ">
+        <h1 className="text-7xl mb-1 font-bold text-center overflow-hidden">Taskify</h1>
+        <h1 className="text-2xl  text-center overflow-hidden">{text[0]}</h1>
+        <button onClick={() => router.push('/login')} className="btn btn-primary fixed bottom-80 px-7">Login</button>
       </div>
     </>
   );

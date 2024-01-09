@@ -1,6 +1,6 @@
 import UserProfile from '@/components/UserProfile'
 import React, { Suspense } from 'react'
-import Loading from '../loading'
+import Loading from '../../loading'
 
 const Profile = () => {
   return (

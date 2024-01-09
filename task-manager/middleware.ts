@@ -1,3 +1,3 @@
 export {default} from 'next-auth/middleware'
 
-export const config = {  matcher: ["/", "/important", "/profile", "/completed", "/do-it-today"]}
+export const config = {  matcher: ["/dashboard/:path*"]}

@@ -15,7 +15,7 @@ const MainSide =  ({ show }: { show: boolean }) => {
   const handle = async () => {
     const res = await signOut();
     console.log(res)
-    router.push("/login")
+    router.push("/")
   };
   return (
     <div

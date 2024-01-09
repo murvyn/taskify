@@ -40,7 +40,7 @@ const TaskCard = ({ tasks }: Props) => {
   const deletedTask = async (id: string) => {
     try {
       setLoading(true);
-      await fetch("api/tasks", {
+      await fetch("/api/tasks", {
         method: "DELETE",
         headers: {
           "Content-type": "application/json",
@@ -60,7 +60,7 @@ const TaskCard = ({ tasks }: Props) => {
   const completeTask = async (id: string, complete: boolean) => {
     try {
       setLoading(true);
-      await fetch("api/tasks", {
+      await fetch("/api/tasks", {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",

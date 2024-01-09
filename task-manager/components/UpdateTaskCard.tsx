@@ -88,7 +88,7 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
   }: TaskData) => {
     try {
       setLoading(true);
-      const res = await fetch("api/tasks", {
+      const res = await fetch("/api/tasks", {
         method: "PUT",
         headers: {
           "Content-type": "application/json",

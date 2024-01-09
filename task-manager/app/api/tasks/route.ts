@@ -37,9 +37,12 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(): Promise<NextResponse<any>> {
+  const session = await getServerSession(authOptions);
+  // console.log('session', session)
   try {
-    const session = await getServerSession(authOptions);
-    if (!session?.user) return NextResponse.redirect("/login");
+    if (!session?.user){
+      console.log(' no session')
+      return NextResponse.redirect("/login")};
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
@@ -47,6 +50,7 @@ export async function GET(): Promise<NextResponse<any>> {
       return NextResponse.redirect("/login");
     }
     const tasks = await Task.find({ user: user._id });
+    // console.log(tasks)
     return NextResponse.json({ message: "Success", tasks }, { status: 201 });
   } catch (error) {
     console.log("getting error");

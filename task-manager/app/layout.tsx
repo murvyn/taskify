@@ -24,8 +24,9 @@ export default function RootLayout({
         <AuthProvider>
           <UserProvider>
             <TaskProvider>
-              <main className="p-5">
-                <CheckRoute>{children}</CheckRoute>
+              <main>
+                {/* <CheckRoute>{children}</CheckRoute> */}
+                {children}
               </main>
             </TaskProvider>
           </UserProvider>
