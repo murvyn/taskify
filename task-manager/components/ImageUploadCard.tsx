@@ -8,9 +8,14 @@ import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { UTApi } from "uploadthing/server";
 
+interface Props {
+  status: string;
+  photoUrl: string;
+  fileKey: string;
+}
+
 const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
   const { update, data: session } = useSession();
   const [loading, setLoading] = useState(false);
 
@@ -27,12 +32,28 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
       });
       const response = await resp.json();
       await update({ ...session, user: { ...response.res } });
-    }catch(error){
-        console.log(error)
-    }
-     finally {
+    } catch (error) {
+      console.log(error);
+    } finally {
       setLoading(false);
       toggleCard();
+    }
+  };
+
+  const afterComplete = async (data: Props) => {
+    try {
+      if (!session?.user) throw new Error("No User Data");
+      const resp = await fetch("/api/user", {
+        method: "PUT",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const response = await resp.json();
+      await update({ ...session, user: { ...response.res } });
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -51,29 +72,16 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                 className=" ut-label:text-secondary max-sm:ut-label:text-xs ut-button:btn-secondary w-auto max-sm:p-1"
                 endpoint="imageUploader"
                 onClientUploadComplete={async (res) => {
-                  setImageUrl(res[0].url);
                   const data = {
                     status: "add",
                     photoUrl: res[0].url,
                     fileKey: res[0].key,
                   };
-                  const resp = await fetch("/api/user", {
-                    method: "PUT",
-                    headers: {
-                      "Content-type": "application/json",
-                    },
-                    body: JSON.stringify(data),
-                  });
-                  const response = await resp.json();
-                  await update({ ...session, user: { ...response.res } });
+                  await afterComplete(data);
                   toggleCard();
                 }}
                 onUploadError={(error: Error) => {
-                    setError(error.message)
-                }}
-                onUploadBegin={async (res) => {
-                  const user = session?.user as IUser
-                //   checkAndDeleteProfilePic(user)
+                  setError(error.message);
                 }}
               />
               {error && <p className="alert alert-warning">{error}</p>}
