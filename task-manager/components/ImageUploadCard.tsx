@@ -77,7 +77,8 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                     photoUrl: res[0].url,
                     fileKey: res[0].key,
                   };
-                  afterComplete(data);
+                  console.log(res, data)
+                //   afterComplete(data);
                   toggleCard();
                 }}
                 onUploadError={(error: Error) => {
