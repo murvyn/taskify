@@ -9,21 +9,17 @@ import { z } from "zod";
 const f = createUploadthing();
 
 const auth = async (req: Request) => {
-  const session = await getServerSession(authOptions);
-  if (!session?.user) {
-    console.log(" no session");
-    return;
-  }
-  const user = session?.user as IUser;
-  return { id: user._id, image: user.fileKey };
+//   const session = await getServerSession(authOptions);
+//   if (!session?.user) {
+//     console.log(" no session");
+//     return;
+//   }
+//   const user = session?.user as IUser;
+  return { id: "user._id"};
 };
 
 export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
-    .onUploadError((error) => {
-      console.log(error);
-      return new Error("an error");
-    })
     .middleware(async ({ req }) => {
       const user = await auth(req);
 

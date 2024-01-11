@@ -67,22 +67,16 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                 <h1 className="card-title">Profile Picture</h1>
                 <FaTimes className="cursor-pointer" onClick={toggleCard} />
               </div>
-              <UploadDropzone
-                appearance={{ button: "btn bg-secondary btn-secondary" }}
-                className=" ut-label:text-secondary max-sm:ut-label:text-xs ut-button:btn-secondary w-auto max-sm:p-1"
+              <UploadButton
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
-                  const data = {
-                    status: "add",
-                    photoUrl: res[0].url,
-                    fileKey: res[0].key,
-                  };
-                  //   afterComplete(data);
-                  toggleCard();
-                  return console.log(res, data)
+                  // Do something with the response
+                  console.log("Files: ", res);
+                  alert("Upload Completed");
                 }}
                 onUploadError={(error: Error) => {
-                  setError(error.message);
+                  // Do something with the error.
+                  alert(`ERROR! ${error.message}`);
                 }}
               />
               {error && <p className="alert alert-warning">{error}</p>}
