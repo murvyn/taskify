@@ -71,7 +71,7 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                 appearance={{ button: "btn bg-secondary btn-secondary" }}
                 className=" ut-label:text-secondary max-sm:ut-label:text-xs ut-button:btn-secondary w-auto max-sm:p-1"
                 endpoint="imageUploader"
-                onClientUploadComplete={async (res) => {
+                onClientUploadComplete={(res) => {
                   const data = {
                     status: "add",
                     photoUrl: res[0].url,
