@@ -10,6 +10,7 @@ export const UserContext = createContext<UserContextProps>({
     lastName: "",
     email: "",
     photoUrl: "",
+    fileKey: '',
   },
   loading: false,
   setUser: () => null,
