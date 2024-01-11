@@ -20,7 +20,7 @@ const SecondSide = ({ show, setShow }: Props) => {
   const user = session?.user as IUser;
   const handle = async () => {
     await signOut();
-    router.push("/")
+    router.push("/");
   };
   return (
     <div
@@ -33,16 +33,18 @@ const SecondSide = ({ show, setShow }: Props) => {
           router.push("/dashboard/profile");
           setShow && setShow(!show);
         }}
-        className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
+        className="flex flex-col xl:flex-row justify-around gap-4 items-center self-center my-5 max-sm:flex-row sm:px-4 "
       >
-        <Image
-          src={noUser}
-          width={60}
-          height={60}
-          alt="image"
-          className="rounded-full object-cover cursor-pointer"
-        />
-        <span className="text-xl font-bold text-center  xl:text-left max-sm:text-left cursor-pointer inline-block -sm:hidden ">
+        <div className="avatar w-[5rem] h-[5rem]">
+          <Image
+            src={user?.photoUrl ? user?.photoUrl : noUser}
+            width={60}
+            height={60}
+            alt="image"
+            className="rounded-full object-cover cursor-pointer"
+          />
+        </div>
+        <span className="text-xl font-bold text-center  xl:text-left  max-sm:text-left cursor-pointer inline-block -sm:hidden ">
           {status === "loading" ? (
             <div className="flex flex-col gap-4 items-center">
               <div className="skeleton h-4 w-20"></div>

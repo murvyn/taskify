@@ -8,14 +8,14 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { IUser } from "@/types";
 
-const MainSide =  ({ show }: { show: boolean }) => {
-  const {status, data: session} = useSession()
-  const user = session?.user as IUser
+const MainSide = ({ show }: { show: boolean }) => {
+  const { status, data: session } = useSession();
+  const user = session?.user as IUser;
   const router = useRouter();
   const handle = async () => {
     const res = await signOut();
-    console.log(res)
-    router.push("/")
+    console.log(res);
+    router.push("/");
   };
   return (
     <div
@@ -33,9 +33,9 @@ const MainSide =  ({ show }: { show: boolean }) => {
           onClick={() => router.push("/dashboard/profile")}
           className="flex flex-col xl:flex-row justify-around gap-4 items-center my-5 max-sm:flex-row sm:px-4"
         >
-          <div className="avatar">
+          <div className="avatar  w-[3.6rem] h-[3.6rem]">
             <Image
-              src={noUser}
+              src={user?.photoUrl ? user?.photoUrl : noUser}
               width={60}
               height={60}
               alt="image"

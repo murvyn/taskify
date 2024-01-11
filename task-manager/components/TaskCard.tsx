@@ -45,7 +45,6 @@ const TaskCard = ({ tasks }: Props) => {
         headers: {
           "Content-type": "application/json",
         },
-        cache: "no-store",
         body: JSON.stringify({ id }),
       });
       const data = await retrieval();

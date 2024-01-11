@@ -38,6 +38,9 @@ export default function Login() {
       const res = await loginUser({email, password})
       if (res?.error === "CredentialsSignin") {
         setError('Invalid email or password')
+        setTimeout(() => {
+          setError('')
+        }, 3000)
         return
       } else if (res?.error) {
         setToastError('Something went wrong, try again')

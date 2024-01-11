@@ -5,7 +5,6 @@ export const useRetrieval = () => {
     try {
       const data = await fetch("/api/tasks", {
         method: "GET",
-        cache: "no-store",
         headers: {
           "Content-type": "application/json",
         },

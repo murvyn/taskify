@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useSession } from "next-auth/react";
 import { IUser } from "@/types";
 import { FaTimes } from "react-icons/fa";
+import ImageUploadCard from "./ImageUploadCard";
 
 interface FormData {
   firstName?: string;
@@ -18,6 +19,7 @@ interface FormData {
 }
 
 const UserProfile = () => {
+  const [showCard, setShowCard] = useState(false)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editInfo, setEditInfo] = useState(false);
@@ -37,6 +39,10 @@ const UserProfile = () => {
       .min(6, "Password has to be 6 letters long")
       .optional(),
   });
+
+  const toggleCard = () => {
+    setShowCard(!showCard);
+  };
 
   const {
     register,
@@ -78,16 +84,17 @@ const UserProfile = () => {
   return (
     <div>
       <div className="flex space-x-5 items-center ">
-        <div className="avatar">
+        <div className="avatar w-[10rem] h-[10rem]">
           <Image
-            src={noUser}
+            src={user?.photoUrl ? user?.photoUrl : noUser}
             width={100}
             height={100}
             alt="image"
+            priority={true}
             className="rounded-full object-cover"
           />
         </div>
-        <span className="text-lg btn rounded-full btn-ghost ">
+        <span onClick={toggleCard} className="text-lg btn rounded-full btn-ghost ">
           <FaRegPenToSquare />
         </span>
       </div>
@@ -202,6 +209,7 @@ const UserProfile = () => {
           )}
         </>
       )}
+      {showCard && <ImageUploadCard toggleCard={toggleCard} />}
     </div>
   );
 };

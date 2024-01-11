@@ -7,6 +7,7 @@ import { FaPlus, FaTimes } from "react-icons/fa";
 import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import { TaskContext } from "@/contexts/taskContext";
+import { ToggleProps } from "@/types";
 
 interface TaskData {
   title: string;
@@ -16,11 +17,8 @@ interface TaskData {
   time: string;
   _id: string;
 }
-interface Props {
-  toggleCard: () => void;
-}
 
-const NewTaskCard = ({ toggleCard }: Props) => {
+const NewTaskCard = ({ toggleCard }: ToggleProps) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
   const { setTasks } = useContext(TaskContext);
@@ -93,7 +91,6 @@ const NewTaskCard = ({ toggleCard }: Props) => {
         headers: {
           "Content-type": "application/json",
         },
-        cache: "no-store",
         body: JSON.stringify({ title, time, description, date, important }),
       });
       const data = await retrieval();

@@ -1,0 +1,42 @@
+import { getServerSession } from "next-auth";
+import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { authOptions } from "../auth/authOptions";
+import { NextResponse } from "next/server";
+import { IUser } from "@/types";
+import { UTApi } from "uploadthing/server";
+import { z } from "zod";
+
+const f = createUploadthing();
+
+const auth = async (req: Request) => {
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    console.log(" no session");
+    return;
+  }
+  const user = session?.user as IUser;
+  return { id: user._id, image: user.fileKey };
+};
+
+export const ourFileRouter = {
+  imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    .onUploadError((error) => {
+      console.log(error);
+      return new Error("an error");
+    })
+    .middleware(async ({ req }) => {
+      const user = await auth(req);
+
+      if (!user) throw new Error("Unauthorized");
+      return { userId: user.id };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("Upload complete for userId:", metadata.userId);
+      // await UTApi.get
+      console.log("file url", file.url);
+
+      return { uploadedBy: metadata.userId };
+    }),
+} satisfies FileRouter;
+
+export type OurFileRouter = typeof ourFileRouter;

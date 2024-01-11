@@ -93,7 +93,6 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
         headers: {
           "Content-type": "application/json",
         },
-        cache: "no-store",
         body: JSON.stringify({ title, time, description, date, important, id }),
       });
       console.log(res);

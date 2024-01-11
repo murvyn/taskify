@@ -33,10 +33,7 @@ export const authOptions: NextAuthOptions = {
           return user;
         } catch (error) {
           console.log("an error ocurred", error);
-          return NextResponse.json(
-            { error: "an error ocurred" },
-            { status: 500 }
-          );
+          return NextResponse.redirect("/")
         }
       },
     }),

@@ -6,6 +6,7 @@ export interface IUser {
   firstName: string;
   lastName: string;
   photoUrl: string;
+  fileKey: string;
 }
 
 export interface LoginUserProps {
@@ -25,6 +26,11 @@ export interface TaskProps {
 export interface ChildrenProps {
   children: ReactNode;
 }
+
+export interface ToggleProps {
+  toggleCard: () => void;
+}
+
 
 export interface TaskContextProps {
   tasks?: TaskProps[];

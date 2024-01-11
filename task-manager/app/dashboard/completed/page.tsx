@@ -15,10 +15,13 @@ const CompletedBox = () => {
     return isSameDate(new Date(task.dateTime), currentDate);
   });
   useEffect(()=>{
-    setAllTaskCount(tasks!.length)
-    setCompletedCount(completedTasks!.length)
-    setTodayCount(DoItTodayTasks!.length)
-    setImportantCount(importantTasks!.length)
+    if(!tasks){
+      return
+    }
+    setAllTaskCount(tasks?.length)
+    setCompletedCount(completedTasks?.length!)
+    setTodayCount(DoItTodayTasks?.length!)
+    setImportantCount(importantTasks?.length!)
   },[allTaskCount, completedCount, importantCount, todayCount, DoItTodayTasks, importantTasks, tasks, completedTasks])
   return (
     <>
