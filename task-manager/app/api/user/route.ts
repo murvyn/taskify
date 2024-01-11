@@ -64,14 +64,14 @@ export async function PUT(request: NextRequest): Promise<NextResponse<any>> {
       user.fileKey = data.fileKey;
 
       if (image) {
-        deleteImage(image);
+        // deleteImage(image);
       }
     }
     if (data.status === "delete") {
       user.photoUrl = "";
       user.fileKey = "";
       if (image) {
-        deleteImage(image);
+        // deleteImage(image);
       }
     }
     const res = await user.save();
