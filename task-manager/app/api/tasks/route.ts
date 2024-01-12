@@ -41,12 +41,12 @@ export async function GET(): Promise<NextResponse<any>> {
   try {
     if (!session?.user){
       console.log(' no session')
-      return NextResponse.redirect("/login")};
+      // return NextResponse.redirect("/login")};
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
     if (!user) {
-      return NextResponse.redirect("/login");
+      // return NextResponse.redirect("/login");
     }
     const tasks = await Task.find({ user: user._id });
     // console.log(tasks)

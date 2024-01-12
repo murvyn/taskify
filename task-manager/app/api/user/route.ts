@@ -10,11 +10,11 @@ import { IUser } from "@/types";
 export async function GET(): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) return NextResponse.redirect("/login");
+    // if (!session?.user) return NextResponse.redirect("/login");
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email });
-    if (!user) return NextResponse.redirect("/login");
+    // if (!user) return NextResponse.redirect("/login");
     return NextResponse.json({ message: "Success", user }, { status: 201 });
   } catch (error) {
     console.log(error);

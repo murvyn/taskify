@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
             return user};
         } catch (error) {
           console.log("an error ocurred", error);
-          return NextResponse.redirect("/")
+          // return NextResponse.redirect("/login")
         }
       },
     }),
