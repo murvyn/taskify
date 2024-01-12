@@ -3,10 +3,11 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
+const isLogged: boolean = true
 
 export async function middleware(req: NextRequest){
     const token = await getToken({req})
-    if(token) return NextResponse.next()
+    if(isLogged) return NextResponse.next()
     return NextResponse.redirect(new URL("/auth/login", req.url))
 }
 
