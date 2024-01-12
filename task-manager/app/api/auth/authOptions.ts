@@ -43,21 +43,21 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/login",
+    signIn: "/",
   },
-  // callbacks: {
-  //   jwt: async ({ token, user, trigger, session }) => {
-  //     if (trigger === "update") {
-  //       token.user = session.user
-  //       return token;
-  //     }
-  //     user && (token.user = user);
-  //     return token;
-  //   },
-  //   session: async ({ session, token }) => {
-  //     const user = token.user as IUser;
-  //     session.user = user as IUser;
-  //     return session;
-  //   },
-  // },
+  callbacks: {
+    jwt: async ({ token, user, trigger, session }) => {
+      if (trigger === "update") {
+        token.user = session.user
+        return token;
+      }
+      user && (token.user = user);
+      return token;
+    },
+    session: async ({ session, token }) => {
+      const user = token.user as IUser;
+      session.user = user as IUser;
+      return session;
+    },
+  },
 };
