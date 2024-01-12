@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
 
 export async function GET(): Promise<NextResponse<any>> {
   const session = await getServerSession(authOptions);
-  // console.log('session', session)
   try {
     if (!session?.user){
       console.log(' no session')

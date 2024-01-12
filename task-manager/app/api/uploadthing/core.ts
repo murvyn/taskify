@@ -9,13 +9,13 @@ import { z } from "zod";
 const f = createUploadthing();
 
 const auth = async (req: Request) => {
-//   const session = await getServerSession(authOptions);
-//   if (!session?.user) {
-//     console.log(" no session");
-//     return;
-//   }
-//   const user = session?.user as IUser;
-  return { id: "user._id"};
+  const session = await getServerSession(authOptions);
+  if (!session?.user) {
+    console.log(" no session");
+    return;
+  }
+  const user = session?.user as IUser;
+  return { id: user._id};
 };
 
 export const ourFileRouter = {
