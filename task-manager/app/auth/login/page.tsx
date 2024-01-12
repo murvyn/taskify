@@ -112,7 +112,7 @@ export default function Login() {
             <p>
               Need an account?{" "}
               <Link
-                href="/sign-up"
+                href="/auth/sign-up"
                 className="link link-primary hover:cursor-pointer"
               >
                 sign up

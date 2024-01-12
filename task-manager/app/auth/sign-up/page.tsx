@@ -174,7 +174,7 @@ const SignUp = () => {
             <p>
               Already have an account?{" "}
               <Link
-                href="/login"
+                href="/auth/login"
                 className="link link-primary hover:cursor-pointer"
               >
 
