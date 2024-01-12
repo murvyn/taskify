@@ -91,7 +91,8 @@ const UserProfile = () => {
             height={100}
             alt="image"
             priority={true}
-            className="rounded-full object-cover"
+            className="rounded-full object-cover transition-opacity duration-[2s]"
+            onLoadingComplete={(image)=>image.classList.remove("opacity-0")}
           />
         </div>
         <span onClick={toggleCard} className="text-lg btn rounded-full btn-ghost ">
