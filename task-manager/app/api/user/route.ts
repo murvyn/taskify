@@ -7,14 +7,14 @@ import bcrypt from "bcryptjs";
 import { UTApi } from "uploadthing/server";
 import { IUser } from "@/types";
 
-export async function GET(): Promise<NextResponse<any>> {
+export async function GET(req: NextRequest): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    // if (!session?.user) return NextResponse.redirect("/login");
+    if (!session?.user) return NextResponse.redirect(new URL("/auth/login", req.url));
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email });
-    // if (!user) return NextResponse.redirect("/login");
+    if (!user) return NextResponse.redirect(new URL("/auth/login", req.url));
     return NextResponse.json({ message: "Success", user }, { status: 201 });
   } catch (error) {
     console.log(error);

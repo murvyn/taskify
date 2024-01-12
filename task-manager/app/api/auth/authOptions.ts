@@ -3,8 +3,8 @@ import User from "@/models/userSchema";
 import { NextAuthOptions } from "next-auth";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { NextResponse } from "next/server";
 import { IUser } from "@/types";
+import { NextResponse, NextRequest } from "next/server";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -35,7 +35,7 @@ export const authOptions: NextAuthOptions = {
             return user};
         } catch (error) {
           console.log("an error ocurred", error);
-          // return NextResponse.redirect("/login")
+          return NextResponse.redirect(new URL("/auth/login"))
         }
       },
     }),
@@ -45,7 +45,7 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: "/auth/login",
+    signIn: "/",
   },
   callbacks: {
     jwt: async ({ token, user, trigger, session }) => {

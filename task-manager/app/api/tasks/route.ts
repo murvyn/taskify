@@ -36,20 +36,19 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export async function GET(): Promise<NextResponse<any>> {
+export async function GET(req: NextRequest): Promise<NextResponse<any>> {
   const session = await getServerSession(authOptions);
   try {
     if (!session?.user){
       console.log(' no session')
-      return NextResponse.redirect("/auth/login")};
+      return NextResponse.redirect(new URL("/auth/login", req.url))};
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
     if (!user) {
-      return NextResponse.redirect("/auth/login");
+      return NextResponse.redirect(new URL("/auth/login", req.url));
     }
     const tasks = await Task.find({ user: user._id });
-    // console.log(tasks)
     return NextResponse.json({ message: "Success", tasks }, { status: 201 });
   } catch (error) {
     console.log("getting error");
@@ -106,10 +105,9 @@ export async function DELETE(request: NextRequest) {
     }
     await connectDB();
     const task = await Task.findByIdAndDelete(id);
-    console.log(task);
-    // if (!task) {
-    //   return NextResponse.json({ error: "Task not found" }, { status: 404 });
-    // }
+    if (!task) {
+      return NextResponse.json({ error: "Task not found" }, { status: 404 });
+    }
     return NextResponse.json(
       { message: "Task deleted successfully", task },
       { status: 201 }

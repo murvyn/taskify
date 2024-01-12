@@ -64,8 +64,8 @@ export default function Login() {
     <div className="m-3">
       <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
     </div>
-      <div className="justify-center items-center w-[100vw] h-[100vh] flex  ">
-        <div className="items-center flex flex-col">
+      <div className="fixed top-0 left-0 z-40 w-full h-full  ">
+        <div className="items-center h-full w-full justify-center flex flex-col">
           <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">Welcome to Taskify</h1>
           <h2 className="text-xl">Log in to Manage Tasks</h2>
           <form

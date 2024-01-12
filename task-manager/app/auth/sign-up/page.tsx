@@ -55,7 +55,7 @@ const SignUp = () => {
   }: FormData) => {
     try {
       setLoading(true)
-      const res = await fetch("api/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -91,8 +91,8 @@ const SignUp = () => {
     <div className="m-3">
       <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
     </div>
-      <div className="flex justify-center items-center w-full h-[100vh]">
-        <div className="flex flex-col items-center">
+    <div className="fixed top-0 left-0 z-40 w-full h-full  ">
+        <div className="items-center h-full w-full justify-center flex flex-col">
           <h1 className="mb-1 font-bold text-4xl">Join Taskify
           </h1>
           <h2 className="text-xl">Sign Up for Task Management</h2>
