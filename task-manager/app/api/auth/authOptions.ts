@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
           if (!passwordMatch) {
             return null;
           }
-          return user;
+          if(user)  return user;
         } catch (error) {
           console.log("an error ocurred", error);
           return NextResponse.redirect("/")
