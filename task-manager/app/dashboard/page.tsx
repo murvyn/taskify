@@ -29,7 +29,6 @@ const DashBoardRoute = () => {
         return isSameTime(currentDat, taskDateTime) && !task.complete;
       });
       taskReady && setReady(taskReady);
-      console.log(ready)
       if (ready.length > 0 && "Notification" in window && notificationEnabled) {
         Notification.requestPermission().then((permission) => {
           if (permission === "granted") {
