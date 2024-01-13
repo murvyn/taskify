@@ -1,12 +1,10 @@
 "use client";
-// import { checkAndDeleteProfilePic } from "@/app/api/uploadthing/core";
-import { IUser, ToggleProps } from "@/types";
-import { UploadButton, UploadDropzone } from "@/utils/uploadthing";
+
+import { ToggleProps } from "@/types";
+import { UploadDropzone } from "@/utils/uploadthing";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
-import { UTApi } from "uploadthing/server";
 
 interface Props {
   status: string;
@@ -52,7 +50,7 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
       });
       const response = await resp.json();
       await update({ ...session, user: { ...response.res } });
-      toggleCard()
+      toggleCard();
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +67,8 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                 <FaTimes className="cursor-pointer" onClick={toggleCard} />
               </div>
               <UploadDropzone
-              appearance={{button: "bg-secondary", container:" "}}
-              className="mx-0 max-sm:w-[13rem] p-0  ut-button:btn-secondary ut-label:text-secondary max-sm:ut-label:text-xs"
+                appearance={{ button: "bg-secondary", container: " " }}
+                className="mx-0 max-sm:w-[13rem] p-0  ut-button:btn-secondary ut-label:text-secondary max-sm:ut-label:text-xs"
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
                   const data = {
@@ -78,8 +76,7 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                     photoUrl: res[0].url,
                     fileKey: res[0].key,
                   };
-                  afterComplete(data)
-
+                  afterComplete(data);
                 }}
                 onUploadError={(error: Error) => {
                   // Do something with the error.

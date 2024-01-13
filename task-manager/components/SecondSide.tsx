@@ -1,12 +1,11 @@
 "use client";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React from "react";
 import SidebarLinks from "./SidebarLinks";
 import noUser from "@/public/no-user.jpg";
 import { LuLogOut } from "react-icons/lu";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { UserContext } from "@/contexts/userContext";
 import { IUser } from "@/types";
 
 interface Props {

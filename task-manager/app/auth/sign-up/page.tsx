@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FaHome } from "react-icons/fa";
 import { ZodType, z } from "zod";
 
@@ -36,15 +37,14 @@ const SignUp = () => {
       }),
   });
 
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
-  const router = useRouter()
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const submitHandler = async ({
@@ -54,7 +54,7 @@ const SignUp = () => {
     email,
   }: FormData) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await fetch("/api/register", {
         method: "POST",
         headers: {
@@ -62,39 +62,44 @@ const SignUp = () => {
         },
         body: JSON.stringify({ firstName, lastName, email, password }),
       });
-      const data = await res.json()
+      const data = await res.json();
       if (data.error === "Email already exists") {
-        setError('Email already exists')
-        setTimeout(() => {
-          setError('')
-        }, 3000)
-        return
+        toast.error("Email already exists", {
+          duration: 3000,
+          position: "bottom-left",
+        });
+        return;
       } else if (data.error) {
-        setError('Something went wrong, try again')
-        setTimeout(() => {
-          setError('')
-        }, 3000)
-        return
+        toast.error("Something went wrong, try again", {
+          duration: 3000,
+          position: "bottom-left",
+        });
+        return;
       }
       if (res.ok) {
-        await loginUser({email, password})
-        router.push("/dashboard")
+        await loginUser({ email, password });
+        router.push("/dashboard");
       }
     } catch (error) {
-      console.log("an error ocurred", error)
+      console.log("an error ocurred", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
   return (
     <>
-    <div className="m-3">
-      <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
-    </div>
-    <div className="fixed top-0 left-0 z-40 w-full h-full  ">
+      <div className="m-3">
+        <span
+          className="btn btn-ghost text-lg"
+          onClick={() => router.push("/")}
+        >
+          {" "}
+          <FaHome />{" "}
+        </span>
+      </div>
+      <div className="fixed top-0 left-0 z-40 w-full h-full  ">
         <div className="items-center h-full w-full justify-center flex flex-col">
-          <h1 className="mb-1 font-bold text-4xl">Join Taskify
-          </h1>
+          <h1 className="mb-1 font-bold text-4xl">Join Taskify</h1>
           <h2 className="text-xl">Sign Up for Task Management</h2>
           <form
             onSubmit={handleSubmit(submitHandler)}
@@ -165,8 +170,14 @@ const SignUp = () => {
                 )}
               </div>
             </div>
-            <button disabled={loading} type="submit" className="btn btn-primary w-full">
-              {loading && <span className="loading loading-dots loading-sm"></span>}
+            <button
+              disabled={loading}
+              type="submit"
+              className="btn btn-primary w-full"
+            >
+              {loading && (
+                <span className="loading loading-dots loading-sm"></span>
+              )}
               Sign up
             </button>
           </form>
@@ -177,18 +188,19 @@ const SignUp = () => {
                 href="/auth/login"
                 className="link link-primary hover:cursor-pointer"
               >
-
                 login
               </Link>
             </p>
           </div>
         </div>
       </div>
-      {error && <div className="toast">
-        <div className="alert alert-error">
-          <span>{error}</span>
+      {error && (
+        <div className="toast">
+          <div className="alert alert-error">
+            <span>{error}</span>
+          </div>
         </div>
-      </div>}
+      )}
     </>
   );
 };

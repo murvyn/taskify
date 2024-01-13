@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ZodType, z } from "zod";
-import {FaHome} from 'react-icons/fa'
+import { FaHome } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 interface FormData {
   email: string;
@@ -19,12 +20,8 @@ export default function Login() {
     email: z.string().email(),
     password: z.string().nonempty("Password is required"),
   });
-  const [loading, setLoading] = useState(false)
-
-  const [err, setError] = useState('')
-  const [toastError, setToastError] = useState('')
-
-  const router = useRouter()
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const {
     register,
@@ -34,39 +31,46 @@ export default function Login() {
 
   const submitHandler = async ({ email, password }: FormData) => {
     try {
-      setLoading(true)
-      const res = await loginUser({email, password})
+      setLoading(true);
+      const res = await loginUser({ email, password });
       if (res?.error === "CredentialsSignin") {
-        setError('Invalid email or password')
-        setTimeout(() => {
-          setError('')
-        }, 3000)
-        return
+        toast.error("Invalid email or password", {
+          duration: 3000,
+          position: "bottom-left",
+        });
+        return;
       } else if (res?.error) {
-        setToastError('Something went wrong, try again')
-        setTimeout(() => {
-          setError('')
-        }, 3000)
-        return
+        toast.error("This is an error, try again!", {
+          duration: 3000,
+          position: "bottom-left",
+        });
+        return;
       }
-      console.log(res)
       if (res?.ok) {
-        router.push("/dashboard")
+        router.push("/dashboard");
       }
     } catch (error) {
       console.log("something went wrong", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
   return (
     <>
-    <div className="m-3">
-      <span className="btn btn-ghost text-lg" onClick={() => router.push("/")}> <FaHome /> </span>
-    </div>
+      <div className="m-3">
+        <span
+          className="btn btn-ghost text-lg"
+          onClick={() => router.push("/")}
+        >
+          {" "}
+          <FaHome />{" "}
+        </span>
+      </div>
       <div className="fixed top-0 left-0 z-40 w-full h-full  ">
         <div className="items-center h-full w-full justify-center flex flex-col">
-          <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">Welcome to Taskify</h1>
+          <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">
+            Welcome to Taskify
+          </h1>
           <h2 className="text-xl">Log in to Manage Tasks</h2>
           <form
             className="w-96 max-sm:w-72 m-8 space-y-4"
@@ -102,9 +106,15 @@ export default function Login() {
                 </span>
               )}
             </div>
-            {err && <span className="alert alert-error" >{err}</span>}
-            <button disabled={loading} className="btn btn-primary w-full" type="submit">
-              {loading && <span className="loading loading-dots loading-sm"></span>}
+
+            <button
+              disabled={loading}
+              className="btn btn-primary w-full"
+              type="submit"
+            >
+              {loading && (
+                <span className="loading loading-dots loading-sm"></span>
+              )}
               Login
             </button>
           </form>
@@ -121,11 +131,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-      {toastError && <div className="toast">
-        <div className="alert alert-error">
-          <span>{toastError}</span>
-        </div>
-      </div>}
     </>
   );
-};
+}

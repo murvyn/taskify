@@ -8,6 +8,7 @@ import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import { TaskContext } from "@/contexts/taskContext";
 import { ToggleProps } from "@/types";
+import toast from "react-hot-toast";
 
 interface TaskData {
   title: string;
@@ -53,21 +54,14 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
         const currentYear = currentDate.getFullYear();
         return `${currentYear}-${currentMonth}-${currentDay}`;
       }),
-    time: z
-      .string()
-      // .refine(time => {
-      //   // const currentTime = new Date();
-      //   // const currentHour = currentTime.getHours()
-      //   // const currentMinutes = currentTime.getMinutes()
-      //   // const current = `${currentHour}:${currentMinutes}`
-      //   return time})
-      .optional(),
+    time: z.string().optional(),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<TaskData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -86,6 +80,13 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
   }: TaskData) => {
     try {
       setLoading(true);
+      const taskDate = new Date(`${date} ${time}`);
+      if (taskDate < currentDate) {
+        setError("time", {
+          message: "You have so set future tasks!",
+        });
+        return;
+      }
       await fetch("api/tasks", {
         method: "POST",
         headers: {
@@ -95,11 +96,13 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
       });
       const data = await retrieval();
       setTasks(data.tasks);
-      toggleCard();
+      toast.success("Successfully created!");
     } catch (error) {
+      toast.error("This is an error, try again!");
       console.log("there was an error", error);
     } finally {
       setLoading(false);
+      toggleCard();
     }
   };
   return (

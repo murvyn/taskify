@@ -19,7 +19,7 @@ interface FormData {
 }
 
 const UserProfile = () => {
-  const [showCard, setShowCard] = useState(false)
+  const [showCard, setShowCard] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [editInfo, setEditInfo] = useState(false);
@@ -70,7 +70,7 @@ const UserProfile = () => {
         reset();
         setError("");
         setEditInfo(false);
-        setChangePassword(false)
+        setChangePassword(false);
       }
       if (response.error === "incorrect password") {
         setError(response.error);
@@ -94,7 +94,10 @@ const UserProfile = () => {
             className="rounded-full object-cover"
           />
         </div>
-        <span onClick={toggleCard} className="text-lg btn rounded-full btn-ghost ">
+        <span
+          onClick={toggleCard}
+          className="text-lg btn rounded-full btn-ghost "
+        >
           <FaRegPenToSquare />
         </span>
       </div>
@@ -165,7 +168,9 @@ const UserProfile = () => {
                   className="input input-bordered w-full sm:w-96 mb-4"
                 />
                 {errors.newPassword && (
-                  <span className="text-error">{errors.newPassword.message}</span>
+                  <span className="text-error">
+                    {errors.newPassword.message}
+                  </span>
                 )}
               </>
             )}

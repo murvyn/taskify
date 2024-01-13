@@ -7,6 +7,7 @@ import { useRetrieval } from "@/hooks/useRetrieval";
 import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
 import { TaskContext } from "@/contexts/taskContext";
+import { toast } from "react-hot-toast";
 
 interface Props {
   tasks?: TaskProps[];
@@ -15,7 +16,7 @@ interface Props {
 const TaskCard = ({ tasks }: Props) => {
   const [showCard, setShowCard] = useState(false);
   const [showUpdateCard, setShowUpdateCard] = useState(false);
-  const [id, setId] = useState("");
+  const [updateTask, setUpdateTask] = useState<any>([]);
   const { retrieval } = useRetrieval();
   const [loading, setLoading] = useState(false);
   const [complete, setComplete] = useState(false);
@@ -49,7 +50,9 @@ const TaskCard = ({ tasks }: Props) => {
       });
       const data = await retrieval();
       setTasks(data.tasks);
+      toast.error("Task deleted!");
     } catch (error) {
+      toast.error("This is an error, try again!");
       console.log("there was an error", error);
     } finally {
       setLoading(false);
@@ -68,7 +71,11 @@ const TaskCard = ({ tasks }: Props) => {
       });
       const data = await retrieval();
       setTasks(data.tasks);
+      if (!complete) {
+        toast.success("Task completed!", { icon: "👏" });
+      }
     } catch (error) {
+      toast.error("This is an error, try again!");
       console.log(error);
     } finally {
       setLoading(false);
@@ -94,7 +101,10 @@ const TaskCard = ({ tasks }: Props) => {
               >
                 <div className="card-body justify-between">
                   <div className="">
-                    <h2 className="card-title capitalize">{task.title}</h2>
+                    <h2 className="card-title capitalize">
+                      {task.important && <span className="text-error">!!</span>}
+                      {task.title}
+                    </h2>
                     <p>{task.description}</p>
                   </div>
                   <div className="flex flex-col">
@@ -117,7 +127,7 @@ const TaskCard = ({ tasks }: Props) => {
                           className="cursor-pointer"
                           onClick={() => {
                             toggleUpdateCard();
-                            setId(task._id);
+                            setUpdateTask(task);
                           }}
                         >
                           <FaEdit />
@@ -150,7 +160,7 @@ const TaskCard = ({ tasks }: Props) => {
       </div>
       {showCard && <NewTaskCard toggleCard={toggleCard} />}
       {showUpdateCard && (
-        <UpdateTaskCard toggleCard={toggleUpdateCard} id={id} />
+        <UpdateTaskCard toggleCard={toggleUpdateCard} task={updateTask} />
       )}
     </>
   );

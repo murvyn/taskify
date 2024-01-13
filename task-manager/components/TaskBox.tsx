@@ -2,8 +2,7 @@
 import React, { Suspense, useContext, useEffect } from "react";
 import { TaskContext } from "@/contexts/taskContext";
 import Loading from "@/app/loading";
-import { UserContext } from "@/contexts/userContext";
-import { fetchUser, isSameDate } from "@/helpers";
+import { isSameDate } from "@/helpers";
 import { BiBell, BiSolidBellRing } from "react-icons/bi";
 
 const TaskCard = React.lazy(() => import("./TaskCard"));
@@ -12,7 +11,7 @@ interface Props {
   notificationEnabled: boolean;
   toggleNotification: () => void;
 }
-const TaskBox = ({notificationEnabled, toggleNotification}: Props) => {
+const TaskBox = ({ notificationEnabled, toggleNotification }: Props) => {
   const {
     tasks,
     setAllTaskCount,
@@ -53,7 +52,10 @@ const TaskBox = ({notificationEnabled, toggleNotification}: Props) => {
             All Tasks
             <span className=" w-1/2 h-1 bg-primary"></span>
           </h2>
-          <span onClick={toggleNotification} className="self-center -mt-5 text-2xl cursor-pointer">
+          <span
+            onClick={toggleNotification}
+            className="self-center -mt-5 text-2xl cursor-pointer"
+          >
             {notificationEnabled ? <BiSolidBellRing /> : <BiBell />}
           </span>
         </div>

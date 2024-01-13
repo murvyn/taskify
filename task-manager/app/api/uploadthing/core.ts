@@ -1,10 +1,7 @@
 import { getServerSession } from "next-auth";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { authOptions } from "../auth/authOptions";
-import { NextResponse } from "next/server";
 import { IUser } from "@/types";
-import { UTApi } from "uploadthing/server";
-import { z } from "zod";
 
 const f = createUploadthing();
 
@@ -15,7 +12,7 @@ const auth = async (req: Request) => {
     return;
   }
   const user = session?.user as IUser;
-  return { id: user._id};
+  return { id: user._id };
 };
 
 export const ourFileRouter = {

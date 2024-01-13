@@ -1,33 +1,34 @@
 import mongoose, { Schema, models } from "mongoose";
 
-
-const schema = new Schema({
+const schema = new Schema(
+  {
     title: {
-        type: String,
-        // required: true
+      type: String,
+      required: true,
     },
     description: {
-        type: String,
-        // required: true
+      type: String,
     },
     important: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
-    complete : {
-        type: Boolean,
-        default: false
+    complete: {
+      type: Boolean,
+      default: false,
     },
     dateTime: {
-        type: String,
-        required: true
-      },
+      type: String,
+      required: true,
+    },
     user: {
-        type: Schema.Types.ObjectId,
-        ref: 'User'
-    }
-},{timestamps: true})
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  { timestamps: true }
+);
 
-const Task = models.Task || mongoose.model('Task', schema)
+const Task = models.Task || mongoose.model("Task", schema);
 
-export default Task
+export default Task;

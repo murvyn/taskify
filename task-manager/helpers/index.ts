@@ -1,6 +1,5 @@
-import { IUser, LoginUserProps, UserContextProps } from "@/types";
+import { LoginUserProps, UserContextProps } from "@/types";
 import { signIn } from "next-auth/react";
-import { UTApi } from "uploadthing/server";
 
 export const loginUser = async ({ email, password }: LoginUserProps) => {
   const res = await signIn("credentials", {
@@ -46,4 +45,19 @@ export const isSameTime = (date1: Date, date2: Date) => {
   const taskMinutes = date2.getMinutes();
   const task = `${taskHour}:${taskMinutes}`;
   return task === current;
+};
+
+export const getDate = (date: Date) => {
+  const currentDate = new Date(date);
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+  return `${currentYear}-${currentMonth}-${currentDay}`;
+};
+
+export const getTime = (date: Date) => {
+  const currentDate = new Date(date);
+  const currentHour = currentDate.getHours();
+  const currentMin = currentDate.getMinutes();
+  return `${currentHour}:${currentMin}`;
 };

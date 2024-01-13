@@ -47,7 +47,7 @@ const DashBoardRoute = () => {
     };
 
     // Check for ready tasks every 5 seconds (adjust the interval as needed)
-    const intervalId = setInterval(checkForReadyTasks, 30000);
+    const intervalId = setInterval(checkForReadyTasks, 20000);
 
     return () => clearInterval(intervalId); // Cleanup on component unmount
   }, [tasks, currentDate, ready, notificationEnabled]);

@@ -7,20 +7,39 @@ import { isSameDate } from "@/helpers";
 const TaskCard = React.lazy(() => import("@/components/TaskCard"));
 
 const DoItTodayBox = () => {
-  const { tasks, setAllTaskCount, setCompletedCount, setImportantCount, setTodayCount, allTaskCount, completedCount, importantCount, todayCount } = useContext(TaskContext);
+  const {
+    tasks,
+    setAllTaskCount,
+    setCompletedCount,
+    setImportantCount,
+    setTodayCount,
+    allTaskCount,
+    completedCount,
+    importantCount,
+    todayCount,
+  } = useContext(TaskContext);
   const completedTasks = tasks?.filter((task) => task.complete === true);
   const currentDate = new Date();
   const importantTasks = tasks?.filter((task) => task.important === true);
   const DoItTodayTasks = tasks?.filter((task) => {
     return isSameDate(new Date(task.dateTime), currentDate);
   });
-  useEffect(()=>{
-    setAllTaskCount(tasks!.length)
-    setCompletedCount(completedTasks!.length)
-    setTodayCount(DoItTodayTasks!.length)
-    setImportantCount(importantTasks!.length)
-  },[allTaskCount, completedCount, importantCount, todayCount, DoItTodayTasks, importantTasks, tasks, completedTasks])
-  
+  useEffect(() => {
+    setAllTaskCount(tasks!.length);
+    setCompletedCount(completedTasks!.length);
+    setTodayCount(DoItTodayTasks!.length);
+    setImportantCount(importantTasks!.length);
+  }, [
+    allTaskCount,
+    completedCount,
+    importantCount,
+    todayCount,
+    DoItTodayTasks,
+    importantTasks,
+    tasks,
+    completedTasks,
+  ]);
+
   return (
     <>
       <div>

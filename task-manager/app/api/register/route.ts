@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       email,
       password: hashedPassword,
     });
-    console.log(newUser)
+    console.log(newUser);
     return NextResponse.json({ message: "Success", newUser }, { status: 201 });
   } catch (error) {
     console.log("an error ocurred", error);

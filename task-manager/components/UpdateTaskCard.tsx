@@ -8,6 +8,9 @@ import { z } from "zod";
 import { useRetrieval } from "@/hooks/useRetrieval";
 import { GrUpdate } from "react-icons/gr";
 import { TaskContext } from "@/contexts/taskContext";
+import { TaskProps } from "@/types";
+import { getDate, getTime } from "@/helpers";
+import { toast } from "react-hot-toast";
 
 interface TaskData {
   title: string;
@@ -19,10 +22,10 @@ interface TaskData {
 }
 interface Props {
   toggleCard: () => void;
-  id: string;
+  task: TaskProps;
 }
 
-const UpdateTaskCard = ({ toggleCard, id }: Props) => {
+const UpdateTaskCard = ({ toggleCard, task }: Props) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
   const { setTasks } = useContext(TaskContext);
@@ -32,8 +35,12 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
   const currentYear = currentDate.getFullYear();
   const current = `${currentYear}-${currentMonth}-${currentDay}`;
 
+  const id = task._id;
+  const date = getDate(task.dateTime);
+  const time = getTime(task.dateTime);
+
   const schema = z.object({
-    title: z.string().optional(),
+    title: z.string().nonempty("Title is required"),
     description: z.string().optional(),
     important: z.boolean().default(false),
     date: z
@@ -45,7 +52,7 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
           const inputMonth = inputDate.getMonth() + 1;
           const inputYear = inputDate.getFullYear();
           const input = `${inputYear}-${inputMonth}-${inputDay}`;
-          return input >= current;
+          return input === current;
         },
         { message: "Date should be today or later" }
       )
@@ -56,26 +63,22 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
         const currentYear = currentDate.getFullYear();
         return `${currentYear}-${currentMonth}-${currentDay}`;
       }),
-    time: z
-      .string()
-      // .refine(time => {
-      //   // const currentTime = new Date();
-      //   // const currentHour = currentTime.getHours()
-      //   // const currentMinutes = currentTime.getMinutes()
-      //   // const current = `${currentHour}:${currentMinutes}`
-      //   return time})
-      .optional(),
+    time: z.string().optional(),
   });
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<TaskData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      important: false,
-      date: current,
+      important: task.important,
+      date: date,
+      time: time,
+      title: task.title,
+      description: task.description,
     },
   });
 
@@ -88,6 +91,13 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
   }: TaskData) => {
     try {
       setLoading(true);
+      const taskDate = new Date(`${date} ${time}`);
+      if (taskDate < currentDate) {
+        setError("time", {
+          message: "You have so set future tasks!",
+        });
+        return;
+      }
       const res = await fetch("/api/tasks", {
         method: "PUT",
         headers: {
@@ -95,13 +105,14 @@ const UpdateTaskCard = ({ toggleCard, id }: Props) => {
         },
         body: JSON.stringify({ title, time, description, date, important, id }),
       });
-      console.log(res);
       const data = await retrieval();
       setTasks(data.tasks);
-      toggleCard();
+      toast.success("Successfully updated!");
     } catch (error) {
+      toast.error("This is an error, try again!");
       console.log("there was an error", error);
     } finally {
+      toggleCard();
       setLoading(false);
     }
   };

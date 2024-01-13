@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./auth/Providers";
-import CheckRoute from "@/components/CheckRoute";
 import { TaskProvider } from "@/contexts/taskContext";
-import { UserProvider } from "@/contexts/userContext";
+import ToastComp from "@/components/ToastComp";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,14 +21,12 @@ export default function RootLayout({
     <html data-theme="halloween" lang="en">
       <body className={inter.className}>
         <AuthProvider>
-          <UserProvider>
             <TaskProvider>
               <main>
-                {/* <CheckRoute>{children}</CheckRoute> */}
                 {children}
+                <ToastComp />
               </main>
             </TaskProvider>
-          </UserProvider>
         </AuthProvider>
       </body>
     </html>

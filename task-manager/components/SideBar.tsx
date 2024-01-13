@@ -1,10 +1,5 @@
 "use client";
-import { signOut } from "next-auth/react";
-import SidebarLinks from "./SidebarLinks";
-import Image from "next/image";
-import noUser from "@/public/no-user.jpg";
-import { LuLogOut } from "react-icons/lu";
-import { FaBars, FaHamburger, FaTimes } from "react-icons/fa";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import MainSide from "./MainSide";
 import SecondSide from "./SecondSide";

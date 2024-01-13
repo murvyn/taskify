@@ -63,7 +63,9 @@ const SidebarLinks = ({ show, setShow }: Props) => {
                 <span className="indicator-item text-[0.7rem] p-[0.3rem] w-[1.3rem] h-[1.3rem] -mt-2 badge badge-secondary">
                   {link.count}
                 </span>
-              ): ''}
+              ) : (
+                ""
+              )}
               <p className={`sm:${show && "hidden"}`}>{link.name}</p>
             </div>
           </Link>

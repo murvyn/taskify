@@ -10,7 +10,8 @@ import { IUser } from "@/types";
 export async function GET(req: NextRequest): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) return NextResponse.redirect(new URL("/auth/login", req.url));
+    if (!session?.user)
+      return NextResponse.redirect(new URL("/auth/login", req.url));
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email });

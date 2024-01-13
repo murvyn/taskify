@@ -31,7 +31,6 @@ export interface ToggleProps {
   toggleCard: () => void;
 }
 
-
 export interface TaskContextProps {
   tasks?: TaskProps[];
   setTasks: Dispatch<SetStateAction<TaskProps[]>>;
@@ -39,12 +38,11 @@ export interface TaskContextProps {
   setCompletedCount: Dispatch<SetStateAction<number>>;
   setAllTaskCount: Dispatch<SetStateAction<number>>;
   setTodayCount: Dispatch<SetStateAction<number>>;
-  importantCount: number
-  completedCount: number
-  allTaskCount: number
-  todayCount: number
+  importantCount: number;
+  completedCount: number;
+  allTaskCount: number;
+  todayCount: number;
 }
-
 
 export interface UserContextProps {
   user?: IUser;

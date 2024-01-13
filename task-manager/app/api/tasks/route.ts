@@ -4,7 +4,6 @@ import User from "@/models/userSchema";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "../auth/authOptions";
-import { signOut } from "next-auth/react";
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,9 +38,10 @@ export async function POST(request: NextRequest) {
 export async function GET(req: NextRequest): Promise<NextResponse<any>> {
   const session = await getServerSession(authOptions);
   try {
-    if (!session?.user){
-      console.log(' no session')
-      return NextResponse.redirect(new URL("/auth/login", req.url))};
+    if (!session?.user) {
+      console.log(" no session");
+      return NextResponse.redirect(new URL("/auth/login", req.url));
+    }
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
@@ -64,6 +64,7 @@ export async function PUT(request: NextRequest) {
     const { title, description, important, date, time, id } =
       await request.json();
     const dateTime = `${date} ${time}`;
+
     await connectDB();
     const tasks = await Task.findById(id);
     if (!tasks)

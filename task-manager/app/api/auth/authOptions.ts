@@ -30,12 +30,13 @@ export const authOptions: NextAuthOptions = {
           if (!passwordMatch) {
             return null;
           }
-          if(user){
-            console.log(user)
-            return user};
+          if (user) {
+            console.log(user);
+            return user;
+          }
         } catch (error) {
           console.log("an error ocurred", error);
-          return NextResponse.redirect(new URL("/auth/login"))
+          return NextResponse.redirect(new URL("/auth/login"));
         }
       },
     }),
@@ -50,7 +51,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user, trigger, session }) => {
       if (trigger === "update") {
-        token.user = session.user
+        token.user = session.user;
         return token;
       }
       user && (token.user = user);
