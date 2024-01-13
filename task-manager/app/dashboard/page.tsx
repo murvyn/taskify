@@ -21,36 +21,36 @@ const DashBoardRoute = () => {
     setNotificationEnabled((prev) => !prev);
   }, []);
 
-  useEffect(() => {
-    const checkForReadyTasks = () => {
-      const taskReady = tasks?.filter((task) => {
-        const taskDateTime = new Date(task.dateTime);
-        const currentDat = new Date();
-        return isSameTime(currentDat, taskDateTime) && !task.complete;
-      });
-      taskReady && setReady(taskReady);
-      if (ready.length > 0 && "Notification" in window && notificationEnabled) {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            ready?.forEach((task) => {
-              new Notification("Task Ready", {
-                body: `It's time to "${task.title}" `,
-              });
-            });
-          } else if (permission === "denied") {
-            Notification.requestPermission().then((permission) =>
-              console.log(permission)
-            );
-          }
-        });
-      }
-    };
+  // useEffect(() => {
+    // const checkForReadyTasks = () => {
+  //     const taskReady = tasks?.filter((task) => {
+  //       const taskDateTime = new Date(task.dateTime);
+  //       const currentDat = new Date();
+  //       return isSameTime(currentDat, taskDateTime) && !task.complete;
+  //     });
+  //     taskReady && setReady(taskReady);
+  //     if (ready.length > 0 && "Notification" in window && notificationEnabled) {
+  //       Notification.requestPermission().then((permission) => {
+  //         if (permission === "granted") {
+  //           ready?.forEach((task) => {
+  //             new Notification("Task Ready", {
+  //               body: `It's time to "${task.title}" `,
+  //             });
+  //           });
+  //         } else if (permission === "denied") {
+  //           Notification.requestPermission().then((permission) =>
+  //             console.log(permission)
+  //           );
+  //         }
+  //       });
+  //     }
+  //   };
 
-    // Check for ready tasks every 5 seconds (adjust the interval as needed)
-    const intervalId = setInterval(checkForReadyTasks, 20000);
+  //   // Check for ready tasks every 5 seconds (adjust the interval as needed)
+  //   const intervalId = setInterval(checkForReadyTasks, 20000);
 
-    return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, [tasks, currentDate, ready, notificationEnabled]);
+  //   return () => clearInterval(intervalId); // Cleanup on component unmount
+  // }, [tasks, currentDate, ready, notificationEnabled]);
   return (
     <div className="w-full">
       <TaskBox
