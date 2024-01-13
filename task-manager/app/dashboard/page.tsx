@@ -15,7 +15,7 @@ const DashBoardRoute = () => {
   const { tasks } = useContext(TaskContext);
   const [ready, setReady] = useState<TaskProps[]>([]);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
-  const currentDate = useMemo(() => new Date(), []);
+  const currentDate = new Date()
 
   const toggleNotification = useCallback(() => {
     setNotificationEnabled((prev) => !prev);
