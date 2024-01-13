@@ -61,7 +61,7 @@ export async function GET(req: NextRequest): Promise<NextResponse<any>> {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { title, description, important, date, time, id, complete } =
+    const { title, description, important, date, time, id } =
       await request.json();
     const dateTime = `${date} ${time}`;
     await connectDB();
@@ -73,9 +73,6 @@ export async function PUT(request: NextRequest) {
     }
     if (description !== undefined && description.trim() !== "") {
       tasks.description = description.trim();
-    }
-    if (complete || !complete) {
-      tasks.complete = !tasks.complete;
     }
     const data = await tasks.set({
       important,
