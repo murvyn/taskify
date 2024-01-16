@@ -6,13 +6,16 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
 }
 
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
+
   }
-} */
+}
 
 * {
   margin: 0;
@@ -22,13 +25,21 @@
   scroll-behavior: smooth;
 }
 
+body {
+  color: rgb(var(--foreground-rgb));
 
-@media(max-width: 320px){
-  .xs\:task-link {
-    display: none;
-  }
 }
 
-/* body {
-  color: rgb(var(--foreground-rgb));
-} */
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--foreground-rgb));
+  border-radius: 5px;
+}
