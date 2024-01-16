@@ -19,10 +19,10 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="halloween" lang="en">
-      <body className={inter.className}>
+      <body data-theme="halloween" className={inter.className}>
         <AuthProvider>
             <TaskProvider>
-              <main>
+              <main data-theme="halloween">
                 {children}
                 <ToastComp />
               </main>
