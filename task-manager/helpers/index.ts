@@ -68,5 +68,8 @@ export const PastDate = (date: Date) => {
   const currentDate = getDate(current)
   const taskTime = getTime(date)
   const currentTime = getTime(current)
+  const currentFull = `${currentDate} ${currentTime}`
+  const taskFull = `${taskDate} ${taskTime}`
+  // console.log(taskFull >= currentFull, taskFull, currentFull, taskTime <= currentTime )
   return taskDate <= currentDate && taskTime <= currentTime
 };

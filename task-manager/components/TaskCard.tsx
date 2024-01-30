@@ -114,7 +114,15 @@ const TaskCard = ({ tasks }: Props) => {
                         {task.title}
                       </span>
                     </h2>
-                    <p>{task.description}</p>
+                    <p
+                      className={`${
+                        PastDate(task.dateTime) && !task.complete
+                          ? "text-error"
+                          : ""
+                      } ${task.complete && "line-through"}`}
+                    >
+                      {task.description}
+                    </p>
                   </div>
                   <div className="flex flex-col">
                     <span className="text-sm">{`${date} ${formattedTime}`}</span>

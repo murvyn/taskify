@@ -4,6 +4,7 @@ import { TaskContext } from "@/contexts/taskContext";
 import Loading from "@/app/loading";
 import { isSameDate } from "@/helpers";
 import { BiBell, BiSolidBellRing } from "react-icons/bi";
+import toast from "react-hot-toast";
 
 const TaskCard = React.lazy(() => import("./TaskCard"));
 
@@ -53,7 +54,14 @@ const TaskBox = ({ notificationEnabled, toggleNotification }: Props) => {
             <span className=" w-1/2 h-1 bg-primary"></span>
           </h2>
           <span
-            onClick={toggleNotification}
+            onClick={() => {
+              toggleNotification();
+              if (!notificationEnabled) {
+                toast.success("Notification enabled");
+              } else if (notificationEnabled) {
+                toast.error("Notifications disabled");
+              }
+            }}
             className="self-center -mt-5 text-2xl cursor-pointer"
           >
             {notificationEnabled ? <BiSolidBellRing /> : <BiBell />}

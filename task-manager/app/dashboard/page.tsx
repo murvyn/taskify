@@ -10,6 +10,7 @@ import React, {
   useMemo,
   useState,
 } from "react";
+import toast from "react-hot-toast";
 
 const DashBoardRoute = () => {
   const { tasks } = useContext(TaskContext);
@@ -19,6 +20,7 @@ const DashBoardRoute = () => {
 
   const toggleNotification = useCallback(() => {
     setNotificationEnabled((prev) => !prev);
+    
   }, []);
 
   useEffect(() => {
