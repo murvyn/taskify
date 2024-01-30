@@ -61,3 +61,12 @@ export const getTime = (date: Date) => {
   const currentMin = currentDate.getMinutes();
   return `${currentHour}:${currentMin}`;
 };
+
+export const PastDate = (date: Date) => {
+  const current = new Date();
+  const taskDate = getDate(date)
+  const currentDate = getDate(current)
+  const taskTime = getTime(date)
+  const currentTime = getTime(current)
+  return taskDate <= currentDate && taskTime <= currentTime
+};

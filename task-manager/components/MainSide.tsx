@@ -21,7 +21,7 @@ const MainSide = ({ show }: { show: boolean }) => {
     <div
       className={`max-sm:hidden card bg-base-200  ${
         show ? "w-[5rem]" : "w-[15rem]"
-      } h-[96vh] items-center justify-between py-5 border border-stone-700 bg-base-300 shadow-xl  `}
+      } h-auto items-center justify-between py-5 border border-stone-700 bg-base-300 shadow-xl  `}
     >
       <div
         className={`${

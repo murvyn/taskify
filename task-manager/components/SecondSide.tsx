@@ -25,7 +25,7 @@ const SecondSide = ({ show, setShow }: Props) => {
     <div
       className={`max-sm:${
         show ? "inline fixed w-full h-full z-40 top-0 left-0 " : "hidden"
-      } sm:hidden card bg-base-200 sm:${`w-[15rem] h-[96vh]  flex items-center justify-between py-5`} border border-stone-700 bg-base-300 `}
+      } sm:hidden card bg-base-200 sm:${`w-[15rem] h-auto  flex items-center justify-between py-5`} border border-stone-700 bg-base-300 `}
     >
       <div
         onClick={() => {

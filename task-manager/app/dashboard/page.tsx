@@ -1,7 +1,7 @@
 "use client";
 import TaskBox from "@/components/TaskBox";
 import { TaskContext } from "@/contexts/taskContext";
-import { isSameTime } from "@/helpers";
+import { isSameDate, isSameTime } from "@/helpers";
 import { TaskProps } from "@/types";
 import React, {
   useCallback,
@@ -26,7 +26,7 @@ const DashBoardRoute = () => {
       const taskReady = tasks?.filter((task) => {
         const taskDateTime = new Date(task.dateTime);
         const currentDat = new Date();
-        return isSameTime(currentDat, taskDateTime) && !task.complete;
+        return isSameTime(currentDat, taskDateTime) && !task.complete && isSameDate(taskDateTime, currentDate);
       });
       taskReady && setReady(taskReady);
       if (ready && ready.length > 0 && "Notification" in window && notificationEnabled) {

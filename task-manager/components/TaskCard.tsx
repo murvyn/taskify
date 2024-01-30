@@ -8,6 +8,7 @@ import UpdateTaskCard from "./UpdateTaskCard";
 import { TaskProps } from "@/types";
 import { TaskContext } from "@/contexts/taskContext";
 import { toast } from "react-hot-toast";
+import { PastDate } from "@/helpers";
 
 interface Props {
   tasks?: TaskProps[];
@@ -103,7 +104,15 @@ const TaskCard = ({ tasks }: Props) => {
                   <div className="">
                     <h2 className="card-title capitalize">
                       {task.important && <span className="text-error">!!</span>}
-                      {task.title}
+                      <span
+                        className={`${
+                          PastDate(task.dateTime) && !task.complete
+                            ? "text-error"
+                            : ""
+                        } ${task.complete && "line-through"}`}
+                      >
+                        {task.title}
+                      </span>
                     </h2>
                     <p>{task.description}</p>
                   </div>
