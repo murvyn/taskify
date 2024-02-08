@@ -57,16 +57,15 @@ export default function Login() {
   };
   return (
     <>
-      <div className="m-3">
+      <div className="m-3 absolute z-50">
         <span
-          className="btn btn-ghost text-lg"
+          className="btn btn-ghost text-lg "
           onClick={() => router.push("/")}
         >
-          {" "}
-          <FaHome />{" "}
+          <FaHome />
         </span>
       </div>
-      <div className="fixed top-0 left-0 z-40 w-full h-full  ">
+      <div className="fixed top-0 left-0 z-10 w-full h-full  ">
         <div className="items-center h-full w-full justify-center flex flex-col">
           <h1 className="mb-1 text-4xl max-sm:text-3xl font-bold">
             Welcome to Taskify

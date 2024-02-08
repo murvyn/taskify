@@ -88,7 +88,7 @@ const SignUp = () => {
   };
   return (
     <>
-      <div className="m-3">
+      <div className="m-3 absolute z-50">
         <span
           className="btn btn-ghost text-lg"
           onClick={() => router.push("/")}

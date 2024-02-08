@@ -117,9 +117,9 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
   return (
     <>
       <div className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-50 overflow-auto"></div>
-      <div className="fixed overflow-auto m-5 z-40 h-full w-full justify-center items-center top-0 left-0 ">
+      <div className="fixed overflow-auto  z-40 h-full w-full justify-center items-center top-0 left-0 ">
         <div className="h-full w-full flex justify-center items-center">
-          <div className="card w-[30rem] max-sm:w-auto h-[2rem] flex justify-center items-center ">
+          <div className="card w-[30rem] max-sm:w-auto h-[auto] flex justify-center items-center ">
             <div className="card-body rounded-xl shadow-2xl w-full bg-base-300  ">
               <div className="flex justify-between items-center">
                 <h1 className="card-title">Update a Task</h1>
