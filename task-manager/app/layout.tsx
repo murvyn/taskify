@@ -19,6 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html data-theme="halloween" lang="en">
+      <head>
+      <link rel="icon" href="../assets/logo.png" />
+      </head>
       <body data-theme="halloween" className={inter.className}>
         <AuthProvider>
             <TaskProvider>
