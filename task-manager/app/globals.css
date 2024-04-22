@@ -16,7 +16,7 @@
 
 
 /* Custom Scrollbar */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 8px;
 }
 
@@ -27,4 +27,4 @@
 ::-webkit-scrollbar-thumb {
   background: rgb(var(--foreground-rgb));
   border-radius: 5px;
-}
+} */

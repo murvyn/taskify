@@ -18,14 +18,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html data-theme="halloween" lang="en">
+    <html  lang="en">
       <head>
       <link rel="icon" href="../assets/logo.png" />
       </head>
-      <body data-theme="halloween" className={inter.className}>
+      <body  className={inter.className}>
         <AuthProvider>
             <TaskProvider>
-              <main data-theme="halloween">
+              <main >
                 {children}
                 <ToastComp />
               </main>
