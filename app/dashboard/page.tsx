@@ -1,6 +1,5 @@
 "use client";
 import TaskBox from "@/components/TaskBox";
-import ThemeButton from "@/components/ThemeButton";
 import { TaskContext } from "@/contexts/taskContext";
 import { isSameDate, isSameTime } from "@/helpers";
 import { TaskProps } from "@/types";
@@ -56,7 +55,6 @@ const DashBoardRoute = () => {
   }, [tasks, currentDate, ready, notificationEnabled]);
   return (
     <div className="w-full">
-      <ThemeButton/>
       <TaskBox
         toggleNotification={toggleNotification}
         notificationEnabled={notificationEnabled}
