@@ -92,8 +92,10 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
     try {
       setLoading(true);
       const taskDate = new Date(`${date} ${time}`);
-      if (taskDate <= currentDate) {
-        toast.error("You have so set future tasks!")
+      if (taskDate < currentDate) {
+        setError("time", {
+          message: "You have so set future tasks!",
+        });
         return;
       }
       const res = await fetch("/api/tasks", {
@@ -106,11 +108,12 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
       const data = await retrieval();
       setTasks(data.tasks);
       toast.success("Successfully updated!");
+      toggleCard();
     } catch (error) {
       toast.error("This is an error, try again!");
       console.log("there was an error", error);
-    } finally {
       toggleCard();
+    } finally {
       setLoading(false);
     }
   };

@@ -96,13 +96,14 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
       });
       const data = await retrieval();
       setTasks(data.tasks);
+      toggleCard();
       toast.success("Successfully created!");
     } catch (error) {
       toast.error("This is an error, try again!");
       console.log("there was an error", error);
+      toggleCard();
     } finally {
       setLoading(false);
-      toggleCard();
     }
   };
   return (

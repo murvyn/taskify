@@ -8,11 +8,12 @@ export async function POST(request: NextRequest) {
     const { firstName, lastName, email, password } = await request.json();
     await connectDB();
     const user = await User.findOne({ email }).select("_id");
-    if (user)
+    if (user) {
       return NextResponse.json(
         { error: "Email already exists" },
         { status: 409 }
       );
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = await User.create({
@@ -21,7 +22,6 @@ export async function POST(request: NextRequest) {
       email,
       password: hashedPassword,
     });
-    console.log(newUser);
     return NextResponse.json({ message: "Success", newUser }, { status: 201 });
   } catch (error) {
     console.log("an error ocurred", error);

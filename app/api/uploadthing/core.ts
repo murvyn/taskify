@@ -19,15 +19,13 @@ export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(async ({ req }) => {
       const user = await auth(req);
-
-      if (!user) throw new Error("Unauthorized");
+      if (!user) {
+        throw new Error("Unauthorized");
+      }
       return { userId: user.id };
     })
     .onUploadComplete(async ({ metadata, file }) => {
       console.log("Upload complete for userId:", metadata.userId);
-      // await UTApi.get
-      console.log("file url", file.url);
-
       return { uploadedBy: metadata.userId };
     }),
 } satisfies FileRouter;

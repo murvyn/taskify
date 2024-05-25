@@ -11,48 +11,41 @@ import React, {
   useState,
 } from "react";
 import toast from "react-hot-toast";
+import { scheduleJob } from "node-schedule";
 
 const DashBoardRoute = () => {
   const { tasks } = useContext(TaskContext);
   const [ready, setReady] = useState<TaskProps[]>([]);
   const [notificationEnabled, setNotificationEnabled] = useState(true);
-  const currentDate = new Date()
 
   const toggleNotification = useCallback(() => {
     setNotificationEnabled((prev) => !prev);
-    
   }, []);
 
   useEffect(() => {
-    const checkForReadyTasks = () => {
-      const taskReady = tasks?.filter((task) => {
-        const taskDateTime = new Date(task.dateTime);
-        const currentDat = new Date();
-        return isSameTime(currentDat, taskDateTime) && !task.complete && isSameDate(taskDateTime, currentDate);
-      });
-      taskReady && setReady(taskReady);
-      if (ready && ready.length > 0 && "Notification" in window && notificationEnabled) {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            ready?.forEach((task) => {
-              new Notification("Task Ready", {
-                body: `It's time to "${task.title}" `,
-              });
+    tasks?.forEach((task: TaskProps) => {
+      const taskDateTime = new Date(task.dateTime);
+      scheduleJob(taskDateTime, function () {
+        if("Notification" in window && notificationEnabled){
+          if (Notification.permission === "granted") {
+            new Notification("Task Ready", {
+              body: `It's time to "${task.title}" `,
             });
-          } else if (permission === "denied") {
+          } else if (Notification.permission === "denied") {
             Notification.requestPermission().then((permission) =>
               console.log(permission)
             );
           }
-        });
-      }
-    };
+          } else if (Notification.permission === "default") {
+            Notification.requestPermission().then((permission) =>
+              console.log(permission)
+            );
+          }
+      });
+    });
 
-    // Check for ready tasks every 5 seconds (adjust the interval as needed)
-    const intervalId = setInterval(checkForReadyTasks, 20000);
-
-    return () => clearInterval(intervalId); // Cleanup on component unmount
-  }, [tasks, currentDate, ready, notificationEnabled]);
+    return () => {}; 
+  }, [notificationEnabled, tasks]);
   return (
     <div className="w-full">
       <TaskBox

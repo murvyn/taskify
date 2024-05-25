@@ -14,12 +14,13 @@ export const authOptions: NextAuthOptions = {
       credentials: {},
       async authorize(credentials: any, req) {
         try {
-          if (!credentials?.email || !credentials?.password) return null;
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
           await connectDB();
           const user = await User.findOne({ email: credentials.email! }).select(
             "+password"
           );
-          console.log("user", user);
           if (!user) {
             return null;
           }
@@ -31,7 +32,6 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
           if (user) {
-            console.log(user);
             return user;
           }
         } catch (error) {

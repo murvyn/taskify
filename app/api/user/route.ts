@@ -10,12 +10,15 @@ import { IUser } from "@/types";
 export async function GET(req: NextRequest): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user)
+    if (!session?.user) {
       return NextResponse.redirect(new URL("/auth/login", req.url));
+    }
     const email = session?.user?.email;
     await connectDB();
     const user = await User.findOne({ email });
-    if (!user) return NextResponse.redirect(new URL("/auth/login", req.url));
+    if (!user) {
+      return NextResponse.redirect(new URL("/auth/login", req.url));
+    }
     return NextResponse.json({ message: "Success", user }, { status: 201 });
   } catch (error) {
     console.log(error);
@@ -26,7 +29,9 @@ export async function GET(req: NextRequest): Promise<NextResponse<any>> {
 export async function PUT(request: NextRequest): Promise<NextResponse<any>> {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user) throw new Error("No user");
+    if (!session?.user) {
+      throw new Error("No user");
+    }
     const email = session?.user?.email;
     const profile = session?.user as IUser;
     const image = profile.fileKey;
@@ -38,7 +43,9 @@ export async function PUT(request: NextRequest): Promise<NextResponse<any>> {
     };
     await connectDB();
     const user = await User.findOne({ email }).select("+password");
-    if (!user) throw new Error("No user");
+    if (!user) {
+      throw new Error("No user");
+    }
     if (data.firstName) {
       user.firstName = data.firstName;
     }
@@ -76,7 +83,6 @@ export async function PUT(request: NextRequest): Promise<NextResponse<any>> {
       }
     }
     const res = await user.save();
-    console.log(res);
     return NextResponse.json({ message: "Success", res }, { status: 201 });
   } catch (error) {
     console.log(error);
