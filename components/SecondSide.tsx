@@ -24,7 +24,7 @@ const SecondSide = ({ show, setShow }: Props) => {
   return (
     <div
       className={`max-sm:${
-        show ? "inline fixed w-full h-full z-40 top-0 left-0 " : "hidden"
+        show ? "inline rounded-none fixed w-full h-full z-40 top-0 left-0 " : "hidden"
       } sm:hidden card bg-base-200 sm:${`w-[15rem] h-auto  flex items-center justify-between py-5`} border border-stone-700 bg-base-300 `}
     >
       <div
