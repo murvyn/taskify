@@ -212,7 +212,7 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
                     {...register("important", { required: true })}
                     title="important"
                     type="checkbox"
-                    className="checkbox checkbox-secondary"
+                    className="checkbox checkbox-primary"
                   />
                   <label className="cursor-pointer label">
                     <span className="label-text">Important</span>

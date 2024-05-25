@@ -67,8 +67,8 @@ const ImageUploadCard = ({ toggleCard }: ToggleProps) => {
                 <FaTimes className="cursor-pointer" onClick={toggleCard} />
               </div>
               <UploadDropzone
-                appearance={{ button: "bg-secondary", container: " " }}
-                className="mx-0 max-sm:w-[13rem] p-0  ut-button:btn-secondary ut-label:text-secondary max-sm:ut-label:text-xs"
+                appearance={{ button: "bg-primary", container: " " }}
+                className="mx-0 max-sm:w-[13rem] p-0  ut-button:btn-primary ut-label:text-primary max-sm:ut-label:text-xs"
                 endpoint="imageUploader"
                 onClientUploadComplete={(res) => {
                   const data = {

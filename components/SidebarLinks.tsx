@@ -60,7 +60,7 @@ const SidebarLinks = ({ show, setShow }: Props) => {
             <div className="indicator space-x-5">
               {link.icon}
               {link.count ? (
-                <span className="indicator-item text-[0.7rem] p-[0.3rem] w-[1.3rem] h-[1.3rem] -mt-2 badge badge-secondary">
+                <span className="indicator-item text-[0.7rem] p-[0.3rem] w-[1.3rem] h-[1.3rem] -mt-2 badge badge-primary">
                   {link.count}
                 </span>
               ) : (
