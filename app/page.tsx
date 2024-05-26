@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useTypewriter } from "react-simple-typewriter";
 
 const GetStartedPage = () => {
+  
   const router = useRouter();
   const text = useTypewriter({
     words: [
