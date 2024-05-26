@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaTimes } from "react-icons/fa";
 import { z } from "zod";
@@ -34,6 +34,7 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
   const current = `${currentYear}-${currentMonth}-${currentDay}`;
+  const updateTaskCardRef = useRef<HTMLDivElement>(null)
 
   const id = task._id;
   const date = getDate(task.dateTime);
@@ -82,6 +83,19 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
     },
   });
 
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if(updateTaskCardRef.current && !updateTaskCardRef.current.contains(e.target as Node)){
+        toggleCard()
+      }
+    }
+    document.addEventListener('mousedown', handler)
+
+    return() => {
+      document.removeEventListener('mousedown', handler)
+    }
+  }, [])
+
   const submit = async ({
     title,
     time,
@@ -122,7 +136,7 @@ const UpdateTaskCard = ({ toggleCard, task }: Props) => {
       <div className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-50 overflow-auto"></div>
       <div className="fixed overflow-auto  z-40 h-full w-full justify-center items-center top-0 left-0 ">
         <div className="h-full w-full flex justify-center items-center">
-          <div className="sm:card sm:w-[30rem] w-full h-full sm:h-[auto] flex justify-center items-center ">
+          <div ref={updateTaskCardRef} className="sm:card sm:w-[30rem] w-full h-full sm:h-[auto] flex justify-center items-center ">
             <div className="sm:card-body overflow-auto  sm:rounded-xl shadow-2xl w-full bg-base-300 h-full max-sm:p-4 ">
               <div className="flex max-sm:mb-5  justify-between items-center">
                 <h1 className="card-title">Update a Task</h1>

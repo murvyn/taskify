@@ -65,11 +65,12 @@ export const getTime = (date: Date) => {
 export const PastDate = (date: Date) => {
   const current = new Date();
   const taskDate = getDate(date)
+  const task = new Date(date)
   const currentDate = getDate(current)
   const taskTime = getTime(date)
   const currentTime = getTime(current)
   const currentFull = `${currentDate} ${currentTime}`
   const taskFull = `${taskDate} ${taskTime}`
   // console.log(taskFull >= currentFull, taskFull, currentFull, taskTime <= currentTime )
-  return taskDate <= currentDate && taskTime <= currentTime
+  return task <= current
 };

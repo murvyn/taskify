@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import { z } from "zod";
@@ -23,12 +23,27 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
   const [loading, setLoading] = useState(false);
   const { retrieval } = useRetrieval();
   const { setTasks } = useContext(TaskContext);
+  const newTaskCardRef = useRef<HTMLDivElement>(null)
 
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
   const currentYear = currentDate.getFullYear();
   const current = `${currentYear}-${currentMonth}-${currentDay}`;
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if(newTaskCardRef.current && !newTaskCardRef.current.contains(e.target as Node)){
+        toggleCard()
+      }
+    }
+    document.addEventListener('mousedown', handler)
+
+    return () => {
+      document.removeEventListener('mousedown', handler)
+    }
+  }, [])
+
 
   const schema = z.object({
     title: z.string().nonempty("Title is required!"),
@@ -111,7 +126,7 @@ const NewTaskCard = ({ toggleCard }: ToggleProps) => {
       <div className="fixed top-0 left-0 z-40 w-full h-full bg-black bg-opacity-50 overflow-auto "></div>
       <div className="fixed overflow-auto z-40 h-full w-full justify-center items-center top-0 left-0 ">
         <div className="h-full w-full flex justify-center items-center">
-          <div className="sm:card sm:w-[30rem] w-full h-full sm:h-[auto] flex justify-center items-center">
+          <div ref={newTaskCardRef} className="sm:card sm:w-[30rem] w-full h-full sm:h-[auto] flex justify-center items-center">
             <div className="sm:card-body overflow-auto sm:rounded-xl shadow-2xl w-full bg-base-300 h-full max-sm:p-4">
               <div className="flex max-sm:mb-5 justify-between items-center">
                 <h1 className="card-title">Create a Task</h1>
